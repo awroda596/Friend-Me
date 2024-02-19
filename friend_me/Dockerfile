@@ -7,8 +7,7 @@ RUN apt install pkg-config -y
 RUN apt install libgtk-3-dev -y
 RUN flutter doctor
 RUN apt install -y xauth
-RUN touch /.Xauthority
-RUN xauth add ${HOST}:0 . $(xxd -l 16 -p /dev/urandom) 
+RUN touch /.Xauthority 
 RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
