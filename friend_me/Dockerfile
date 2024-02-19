@@ -7,7 +7,7 @@ RUN apt install pkg-config -y
 RUN apt install libgtk-3-dev -y
 RUN flutter doctor
 RUN apt install -y xauth
-run touch /.Xauthority
+RUN touch /.Xauthority
 RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
