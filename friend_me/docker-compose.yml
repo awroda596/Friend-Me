@@ -9,3 +9,5 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
     network_mode: host
+    stdin_open: true
+    tty: true
