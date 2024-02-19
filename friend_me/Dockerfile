@@ -11,4 +11,3 @@ RUN touch /.Xauthority
 RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
-CMD flutter run
