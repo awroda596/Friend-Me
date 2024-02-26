@@ -1,13 +1,13 @@
-testing docker based on instructions in this article: https://gursimarsm.medium.com/run-gui-applications-in-a-docker-container-ca625bad4638
-needs some adjustment but works.  Currently runs the flutter app in linux but should be able to run in chrome as well.  will need to modify the dockerfile to install chrome and requirements first though. 
-Uses xserver on host to function as display. 
+Partially working docker based on instructions in this article: https://gursimarsm.medium.com/run-gui-applications-in-a-docker-container-ca625bad4638
+Currently builds and runs the app in linux, will need to fix for chrome.  
 tested on my ubuntu laptop and my windows desktop with WSL 
 requires: docker-compose and linux or windows with WSL on host
 
 to run: 
-edit the Dockerfile and replace <token> on line 12 with an xauth token (run xauth list on host).  
+edit the Dockerfile and replace <token> on line 19 with an xauth token (run xauth list on host).  
+if using WSL, can just remove the line instead. 
 run sudo docker-compose build
-run sudo docker-compose up
+run sudo docker-compose run app
 
 
 to do: 
