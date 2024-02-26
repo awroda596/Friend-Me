@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:friend_me/main.dart';
 import 'package:friend_me/pages/profile.dart';
+import 'package:friend_me/pages/schedule.dart';
 
 // Class for the nav bar
 class NavBar extends StatelessWidget{
@@ -41,9 +42,16 @@ class NavBar extends StatelessWidget{
                           );
                         }
                     ),     
-                    ListTile(
+                    ListTile( // list tile for profile
                         title: const Text('Schedule'), // text of title of item on nav bar
-                        onTap: () => {Navigator.of(context).pop()}, // on tap, use navigation pop // nothing for now
+                        onTap: (){ // on tap
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.push( // push 
+                            context, // context
+                            MaterialPageRoute(builder: (context) => const ScheduleRoute()), // push profileroute page
+                          );
+                        }
                     ),   
                     ListTile(
                         title: const Text('Friends'), // text of title of item on nav bar
