@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:friend_me/main.dart';
+import 'package:friend_me/pages/profile.dart';
 
 // Class for the nav bar
 class NavBar extends StatelessWidget{
@@ -17,11 +19,29 @@ class NavBar extends StatelessWidget{
                             style: TextStyle(color:Colors.white,fontSize:25), // styles the text given color and fontsize
                         ),
                     ),  
-                    ListTile( // list tile
+                    ListTile(  // home listview on nav bar
+                        title: const Text('Home'), // text of title of item on nav bar
+                         onTap: (){ // on tap
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.push( // push 
+                            context, // context
+                            MaterialPageRoute(builder: (context) => const MyApp()), // push profileroute page
+                          );
+                        }
+                    ),   
+                    ListTile( // list tile for profile
                         title: const Text('Profile'), // text of title of item on nav bar
-                        onTap: () => {Navigator.of(context).pop()},  // on tap, use navigation pop // nothing for now
+                        onTap: (){ // on tap
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.push( // push 
+                            context, // context
+                            MaterialPageRoute(builder: (context) => const ProfileRoute()), // push profileroute page
+                          );
+                        }
                     ),     
-                       ListTile(
+                    ListTile(
                         title: const Text('Schedule'), // text of title of item on nav bar
                         onTap: () => {Navigator.of(context).pop()}, // on tap, use navigation pop // nothing for now
                     ),   
