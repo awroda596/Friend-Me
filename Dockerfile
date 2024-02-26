@@ -16,9 +16,10 @@ RUN flutter doctor
 RUN apt install -y xauth
 RUN touch /.Xauthority
 RUN touch /root/.Xauthority
-RUN xauth add <token> #<--- replace with token or remove on WSL
+RUN xauth add aroda-XPS-13-9305/unix:0  MIT-MAGIC-COOKIE-1  995f03c2b4030e2f8698a9052abcb960 #<--- replace with token or remove on WSL
 RUN adduser --system --group chrome
 RUN mkdir /app/
 COPY ./friend_me /app/
 WORKDIR /app/
+RUN rm -r ./build
 CMD flutter run 
