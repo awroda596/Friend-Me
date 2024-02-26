@@ -41,6 +41,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+List<CalendarEventData> _events = []; //empty list to hold events/available times. 
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -58,6 +60,8 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
+
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
