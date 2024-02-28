@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return CalendarControllerProvider(
-		controller: EventController(),
-		child: MaterialApp(
+		MaterialApp(
 		  title: 'Friend Me',
 		  debugShowCheckedModeBanner: false,
 		  theme: ThemeData(
@@ -48,11 +46,8 @@ class MyApp extends StatelessWidget {
 		  ),
 		  home: const MyHomePage(title: 'Home'),
 		),
-	);
-  }
+  };
 }
-
-List<CalendarEventData> _events = []; //empty list to hold events/available times. 
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
