@@ -20,10 +20,6 @@ class ProfileRoute extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const Text(
-                    "Profile Name Temp name",
-                    style: TextStyle(fontSize: 30, color: Colors.black),
-                ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.width/4,
@@ -44,7 +40,7 @@ class ProfileRoute extends StatelessWidget {
                   children: <Widget>[
                     Container(
                   width: MediaQuery.of(context).size.width/4,
-                  height: MediaQuery.of(context).size.width/4,
+                  height: MediaQuery.of(context).size.width/5,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   image:  DecorationImage(
@@ -55,8 +51,95 @@ class ProfileRoute extends StatelessWidget {
                 IconButton(onPressed: settings, icon: const Icon(Icons.settings, color: Colors.white)) // placeholder
                   ]
                 ),
-              )
-        ]
+              ),
+               const Text(
+                    "John Doe",
+                    style: TextStyle(fontSize: 30, color: Colors.black),
+                ),
+               Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                       const Text(
+                        "Private Name",
+                      style: TextStyle(fontSize: 30, color: Colors.black),
+                ),
+                const Text(
+                        "About Me",
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width/4,
+                  height: MediaQuery.of(context).size.height/4,
+                child: const Text(
+                    "This is to be about me, Test text to make sure container is good to go. ",
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+                  )],   
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width/4,
+                  height: MediaQuery.of(context).size.height/4,
+                child:  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        "Most Met Friends"
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width/16,
+                        height: MediaQuery.of(context).size.height/16,
+                        decoration: const  BoxDecoration(
+                          shape: BoxShape.circle,
+                            image:  DecorationImage(
+                            image: AssetImage('images/Profile.png'), // stock image
+                          fit: BoxFit.cover,
+                        ),
+                    ),),
+                    Container(
+                        width: MediaQuery.of(context).size.width/16,
+                        height: MediaQuery.of(context).size.height/16,
+                        decoration: const  BoxDecoration(
+                          shape: BoxShape.circle,
+                            image:  DecorationImage(
+                            image: AssetImage('images/Profile.png'), // stock image
+                          fit: BoxFit.cover,
+                        ),
+                    ),),
+                    Container(
+                        width: MediaQuery.of(context).size.width/16,
+                        height: MediaQuery.of(context).size.height/16,
+                        decoration: const  BoxDecoration(
+                          shape: BoxShape.circle,
+                            image:  DecorationImage(
+                            image: AssetImage('images/Profile.png'), // stock image
+                          fit: BoxFit.cover,
+                        ),
+                    ),),
+                       
+                    ]
+                ),
+                )],
+        ),
+        const Column(
+           mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "This is for the schedule, To be worked on.",
+                  style: TextStyle(fontSize: 30, color: Colors.black),
+                ),
+
+              ]
+
+        )
+        ],
+       
       )
     );
   }
