@@ -28,7 +28,7 @@ class ScheduleRoute extends StatelessWidget {
 			)			
 		  ],
       ),
-      body: WeekView(),
+      body: const Timetable(),
     );
   }
 }
