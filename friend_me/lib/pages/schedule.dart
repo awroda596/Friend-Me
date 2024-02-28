@@ -16,7 +16,17 @@ class ScheduleRoute extends StatelessWidget {
       drawer: const NavBar(),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text('Schedule'),
+		  actions: <Widget>[
+			IconButton(
+			  icon: Icon(
+				Icons.add
+			  ),
+			  onPressed: () {
+				// do something
+			  },
+			)			
+		  ],
       ),
       body: WeekView(),
     );
