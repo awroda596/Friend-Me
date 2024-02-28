@@ -2,9 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:friend_me/widgets/NavBar.dart';
 import 'dart:math';
-import 'package:flutter_timetable/flutter_timetable.dart';
 import 'package:intl/intl.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -15,7 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-		MaterialApp(
+		return MaterialApp(
 		  title: 'Friend Me',
 		  debugShowCheckedModeBanner: false,
 		  theme: ThemeData(
@@ -45,8 +43,8 @@ class MyApp extends StatelessWidget {
 			},
 		  ),
 		  home: const MyHomePage(title: 'Home'),
-		),
-  };
+		);
+  }
 }
 
 class MyHomePage extends StatefulWidget {

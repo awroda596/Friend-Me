@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:friend_me/widgets/NavBar.dart';
-
+import 'package:flutter_timetable/flutter_timetable.dart';
 class ScheduleRoute extends StatelessWidget {
   const ScheduleRoute({super.key});
 
