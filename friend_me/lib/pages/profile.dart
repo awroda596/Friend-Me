@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:friend_me/widgets/NavBar.dart';
+import 'package:friend_me/widgets/navbar.dart';
 
 class ProfileRoute extends StatelessWidget {
   const ProfileRoute({super.key});
@@ -11,47 +11,45 @@ class ProfileRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavBar(),
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
-      body: Column(
+     appBar: const NavBar(),
+      body: SingleChildScrollView(
+      child:Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width/4,
+                  height: MediaQuery.of(context).size.height/6,
                   decoration: BoxDecoration(
                   color: const Color(0xff7c94b6),
                   image: const DecorationImage(
                     image: AssetImage('images/Profile_template.png'), // stock image
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
                   border: Border.all(
                     width: 2,
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Row(
+                child: SingleChildScrollView(
+                  child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Container(
                   width: MediaQuery.of(context).size.width/4,
-                  height: MediaQuery.of(context).size.width/5,
+                  height: MediaQuery.of(context).size.height/6,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   image:  DecorationImage(
                      image: AssetImage('images/Profile.png'), // stock image
-                    fit: BoxFit.cover,
+                    fit: BoxFit.scaleDown,
                   ),
                 ),),
                 IconButton(onPressed: settings, icon: const Icon(Icons.settings, color: Colors.white)) // placeholder
                   ]
                 ),
-              ),
+                )),
                const Text(
                     "John Doe",
                     style: TextStyle(fontSize: 30, color: Colors.black),
@@ -84,7 +82,8 @@ class ProfileRoute extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width/4,
                   height: MediaQuery.of(context).size.height/4,
-                child:  Column(
+                child:  SingleChildScrollView (
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -124,7 +123,7 @@ class ProfileRoute extends StatelessWidget {
                        
                     ]
                 ),
-                )],
+               ))],
         ),
         const Column(
            mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +139,7 @@ class ProfileRoute extends StatelessWidget {
         )
         ],
        
-      )
+      ))
     );
   }
 }
