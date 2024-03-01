@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:friend_me/widgets/navbar.dart';
+import 'package:friend_me/widgets/profile_setting.dart';
 
 class ProfileRoute extends StatelessWidget {
   const ProfileRoute({super.key});
 
-  settings(){  // Does nothing right now placeholder
 
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,15 @@ class ProfileRoute extends StatelessWidget {
                     fit: BoxFit.scaleDown,
                   ),
                 ),),
-                IconButton(onPressed: settings, icon: const Icon(Icons.settings, color: Colors.white)) // placeholder
+                IconButton(
+                  onPressed:  (){
+                      Navigator.pop; // pops currnet page
+                      Navigator.push( // push new page
+                        context,
+                        MaterialPageRoute(builder: (context) =>  ProfileSettingRoute(), // temp until home page is seperate
+                      ));
+                    },  
+                  icon: const Icon(Icons.settings, color: Colors.white)) // placeholder
                   ]
                 ),
                 )),
