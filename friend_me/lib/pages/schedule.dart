@@ -12,7 +12,7 @@ class ScheduleRoute extends StatefulWidget {
   State<ScheduleRoute> createState() => _ScheduleRouteState();
 }
 
-class _ScheduleRouteState extends State<ScheduleRoute>{
+class _ScheduleRouteState extends State<ScheduleRoute> with AutomaticKeepAliveClientMixin{
 	//calendar and events controller
 	final CalendarController<Event> controller = CalendarController(); 
 	final CalendarEventsController<Event> eventController = CalendarEventsController<Event>(); 
@@ -182,6 +182,9 @@ class _ScheduleRouteState extends State<ScheduleRoute>{
   bool get isMobile {
     return kIsWeb ? false : Platform.isAndroid || Platform.isIOS;
   }
+
+  @override
+  bool get wantKeepAlive => true; 
 }
 
 
