@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:friend_me/main.dart';
 
+import 'package:friend_me/pages/profile.dart';
+
 // Class for the nav bar
 class NavBar extends StatelessWidget implements PreferredSizeWidget{
-     const NavBar({super.key});
+     const NavBar({super.key });
+
       final textstyle = const TextStyle( // defines text style
         color: Colors.black,
         fontSize: 12
       );
+
+
     @override
     Widget build(BuildContext context){ // builds the widget
         final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
@@ -28,17 +33,30 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget{
                   OutlinedButton( // home button
               style: outlineButtonStyle,
               onPressed: (){
-               Navigator.pop; // pops currnet page
-               Navigator.push( // push new page
+
+                  Navigator.pop;
+                  Navigator.push( // push new page
                   context,
                   MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')), // temp until home page is seperate
-                  );
+                  ); 
+               
+
+
               }, 
               child: Text("Home", style: textstyle)
             ),
              OutlinedButton( // profile button
               style: outlineButtonStyle,
-               onPressed: (){}, 
+
+               onPressed: (){
+              Navigator.pop;// pops currnet page
+               Navigator.push( // push new page
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfileRoute(), // temp until home page is seperate
+                  ));
+              }, 
+
+
               child:  Text("Profile", style: textstyle)
             ),
              OutlinedButton( // Schedule button
