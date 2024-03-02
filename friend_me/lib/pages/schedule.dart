@@ -79,7 +79,7 @@ class _ScheduleRouteState extends State<ScheduleRoute> with AutomaticKeepAliveCl
   Future<void> _onEventTapped(
     CalendarEvent<Event> event,
   ) async {
-	
+    eventController.removeEvent(event);
     if (isMobile) {
       eventController.selectedEvent == event
           ? eventController.deselectEvent()
