@@ -1,8 +1,6 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:friend_me/widgets/NavBar.dart';
-import 'dart:math';
-import 'package:intl/intl.dart';
+import 'dart:ui'; 
 void main() {
   runApp(const MyApp());
 }
@@ -35,13 +33,13 @@ class MyApp extends StatelessWidget {
 			colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
 			useMaterial3: true,
 		  ),
-		  scrollBehavior: ScrollBehavior().copyWith(
+		  /*scrollBehavior: ScrollBehavior().copyWith(
 			dragDevices: {
 				PointerDeviceKind.trackpad,
 				PointerDeviceKind.mouse,
 				PointerDeviceKind.touch,		
 			},
-		  ),
+		  ), */
 		  home: const MyHomePage(title: 'Home'),
 		);
   }
