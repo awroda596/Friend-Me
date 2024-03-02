@@ -1,4 +1,4 @@
-import 'package:friend_me/widgets/NavBar.dart';
+import 'package:friend_me/widgets/navbar.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -50,11 +50,8 @@ class _ScheduleRouteState extends State<ScheduleRoute>{
 		);
 		return SafeArea(
 			child: Scaffold( 
-				drawer: const NavBar(),
 				backgroundColor: Colors.white,
-				appBar: AppBar(
-					title: const Text('Schedule'),
-				),
+				appBar: const NavBar(),
 				body: calendar,
 			),
 		);

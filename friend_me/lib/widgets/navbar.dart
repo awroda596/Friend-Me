@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:friend_me/main.dart';
-
+import '../pages/schedule.dart'; 
 // Class for the nav bar
 class NavBar extends StatelessWidget implements PreferredSizeWidget{
      const NavBar({super.key});
@@ -41,9 +41,15 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget{
                onPressed: (){}, 
               child:  Text("Profile", style: textstyle)
             ),
-             OutlinedButton( // Schedule button
+             OutlinedButton( // profile button
               style: outlineButtonStyle,
-              onPressed: (){}, 
+               onPressed: (){
+              Navigator.pop;// pops currnet page
+               Navigator.push( // push new page
+                  context,
+                  MaterialPageRoute(builder: (context) => const ScheduleRoute(), // temp until home page is seperate
+                  ));
+              }, 
               child:  Text("Schedule", style: textstyle)
             ),
              OutlinedButton( // Friends button
