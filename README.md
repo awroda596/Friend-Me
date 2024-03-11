@@ -11,7 +11,7 @@ Work, classes, schedules, so many things to coordinate. That's where Friend Me c
 
 - Requirements
 
-API:
+#API:
 signup -> server:port/api/users/signup 
 methods: POST
 accepts: JSON
