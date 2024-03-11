@@ -11,3 +11,13 @@ Work, classes, schedules, so many things to coordinate. That's where Friend Me c
 
 - Requirements
 
+API:
+signup -> server:port/api/users/signup 
+methods: POST
+accepts: JSON
+adds user to DB(parameters: username, email, first_name, last_name, password) 
+returns: JSON Auth Token 
+login -> server:port/api/users/signup 
+accepts: JSON
+methods: POST
+returns: JSON AuthToken
