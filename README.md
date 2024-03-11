@@ -1,4 +1,4 @@
-#Friend Me
+# Friend Me
 Your Way to Connect with Friends!
 
 * General Description
@@ -11,13 +11,13 @@ Work, classes, schedules, so many things to coordinate. That's where Friend Me c
 
 - Requirements
 
-#API:
-signup -> server:port/api/users/signup 
-methods: POST
-accepts: JSON
-adds user to DB(parameters: username, email, first_name, last_name, password) 
-returns: JSON Auth Token 
-login -> server:port/api/users/signup 
-accepts: JSON
-methods: POST
+## API:
+signup -> server:port/api/users/signup <br>
+methods: POST <br>
+accepts: JSON <br>
+adds user to DB(parameters: username, email, first_name, last_name, password) <br>
+returns: JSON Auth Token <br>
+login -> server:port/api/users/signup <br>
+accepts: JSON <br>
+methods: POST <br>
 returns: JSON AuthToken
