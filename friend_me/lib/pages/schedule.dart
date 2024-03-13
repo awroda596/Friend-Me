@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 
-
 class ScheduleRoute extends StatefulWidget {
   const ScheduleRoute({super.key});
 
@@ -12,60 +11,65 @@ class ScheduleRoute extends StatefulWidget {
   State<ScheduleRoute> createState() => _ScheduleRouteState();
 }
 
-class _ScheduleRouteState extends State<ScheduleRoute> with AutomaticKeepAliveClientMixin{
-	//calendar and events controller
-	final CalendarController<Event> controller = CalendarController(); 
-	final CalendarEventsController<Event> eventController = CalendarEventsController<Event>(); 
-	
-	//currrent configuration to hold current view and list to hold week and month view. 
-	late ViewConfiguration currentConfiguration = viewConfigurations[0]; 
-	List<ViewConfiguration> viewConfigurations = [
-	WeekConfiguration(),
+class _ScheduleRouteState extends State<ScheduleRoute>
+    with AutomaticKeepAliveClientMixin {
+  //calendar and events controller
+  final CalendarController<Event> controller = CalendarController();
+  final CalendarEventsController<Event> eventController =
+      CalendarEventsController<Event>();
+
+  //currrent configuration to hold current view and list to hold week and month view.
+  late ViewConfiguration currentConfiguration = viewConfigurations[0];
+  List<ViewConfiguration> viewConfigurations = [
+    WeekConfiguration(),
     MonthConfiguration(),
     //MultiWeekConfiguration( numberOfWeeks: 3, ),
-	];
-	
-	@override
-	void initState(){
-		super.initState(); 
-		DateTime now = DateTime.now();		
-	}
-	
-	@override
-	Widget build(BuildContext context){
-		final calendar = CalendarView<Event>(
-			controller: controller,
-			eventsController: eventController,
-			viewConfiguration: currentConfiguration,
-			tileBuilder: _tileBuilder,
-			multiDayTileBuilder: _multiDayTileBuilder,
-			scheduleTileBuilder: _scheduleTileBuilder,
-			components: CalendarComponents( calendarHeaderBuilder: _calendarHeader, ),
-			eventHandlers: CalendarEventHandlers(
-				onEventTapped: _onEventTapped,
-				onEventChanged: _onEventChanged,
-				onCreateEvent: _onCreateEvent,
-				onEventCreated: _onEventCreated,
-			),
-		);
-		return SafeArea(
-			child: Scaffold( 
-				backgroundColor: Colors.white,
-				appBar: const NavBar(),
-				body: calendar,
-			),
-		);
-	}
-	CalendarEvent<Event> _onCreateEvent(DateTimeRange dateTimeRange) {
-		String start = getTime(dateTimeRange.start); 
-		String end = getTime(dateTimeRange.end); 
-		String timeRange = "$start - $end";
-		return CalendarEvent(
-		  dateTimeRange: dateTimeRange,
-		  eventData: Event(
-			title: '$timeRange',
-		  ),
-		);
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    DateTime now = DateTime.now();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final calendar = CalendarView<Event>(
+      controller: controller,
+      eventsController: eventController,
+      viewConfiguration: currentConfiguration,
+      tileBuilder: _tileBuilder,
+      multiDayTileBuilder: _multiDayTileBuilder,
+      scheduleTileBuilder: _scheduleTileBuilder,
+      components: CalendarComponents(
+        calendarHeaderBuilder: _calendarHeader,
+      ),
+      eventHandlers: CalendarEventHandlers(
+        onEventTapped: _onEventTapped,
+        onEventChanged: _onEventChanged,
+        onCreateEvent: _onCreateEvent,
+        onEventCreated: _onEventCreated,
+      ),
+    );
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: const NavBar(),
+        body: calendar,
+      ),
+    );
+  }
+
+  CalendarEvent<Event> _onCreateEvent(DateTimeRange dateTimeRange) {
+    String start = getTime(dateTimeRange.start);
+    String end = getTime(dateTimeRange.end);
+    String timeRange = "$start - $end";
+    return CalendarEvent(
+      dateTimeRange: dateTimeRange,
+      eventData: Event(
+        title: '$timeRange',
+      ),
+    );
   }
 
   Future<void> _onEventCreated(CalendarEvent<Event> event) async {
@@ -170,24 +174,23 @@ class _ScheduleRouteState extends State<ScheduleRoute> with AutomaticKeepAliveCl
           onPressed: controller.animateToNextPage,
           icon: const Icon(Icons.navigate_next_rounded),
         ),
-		Column(
-			children: <Widget>[
-				for(var item in eventController.events) Text(getTitle(item.eventData))
-			],
-		),
+        Column(
+          children: <Widget>[
+            for (var item in eventController.events)
+              Text(getTitle(item.eventData))
+          ],
+        ),
       ],
     );
   }
-	
+
   bool get isMobile {
     return kIsWeb ? false : Platform.isAndroid || Platform.isIOS;
   }
 
   @override
-  bool get wantKeepAlive => true; 
+  bool get wantKeepAlive => true;
 }
-
-
 
 //eventDetails
 class Event {
@@ -207,13 +210,12 @@ class Event {
   final Color? color;
 }
 
-
-String getTime(DateTime DT){
-	String time = "${DT.hour}:${DT.minute}";
-	return time; 
+String getTime(DateTime DT) {
+  String time = "${DT.hour}:${DT.minute}";
+  return time;
 }
 
-String getTitle(Event? e){
-	String title = e?.title ?? "null"; 
-	return title;
+String getTitle(Event? e) {
+  String title = e?.title ?? "null";
+  return title;
 }
