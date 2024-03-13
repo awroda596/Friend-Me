@@ -34,6 +34,9 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             // children in the column
             const Text("Friend Me"), // text
             Row(
+              // Center the Icons
+              crossAxisAlignment: CrossAxisAlignment.center, // Optional
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
               // sets row of menu items
               children: [
                 // children
