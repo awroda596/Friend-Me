@@ -1,9 +1,12 @@
 import 'package:friend_me/widgets/navbar.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
+import 'dart:convert'; 
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:developer'; //for logging debug
+int id = 1; 
 
 class ScheduleRoute extends StatefulWidget {
   const ScheduleRoute({super.key});
@@ -56,6 +59,26 @@ class _ScheduleRouteState extends State<ScheduleRoute> with AutomaticKeepAliveCl
 			),
 		);
 	}
+
+  Future<http.Response> postEvent(int eid, String title, String description, int start_time, int end_time, int creator_id) {
+    print("in post event\n"); 
+    return  http.post(
+      Uri.parse("http://127.0.0.1:8000/api/events/postevent/"),
+      headers: <String, String>{
+      "Content-Type":"application/json",
+      },
+
+      body: jsonEncode({
+        "id": eid,
+        "title":title,
+        "description":description,
+        "start_time":start_time,
+        "end_time":end_time,
+        "creator_id":creator_id,
+      })
+    );
+  }
+
 	CalendarEvent<Event> _onCreateEvent(DateTimeRange dateTimeRange) {
 		String start = getTime(dateTimeRange.start); 
 		String end = getTime(dateTimeRange.end); 
@@ -64,6 +87,7 @@ class _ScheduleRouteState extends State<ScheduleRoute> with AutomaticKeepAliveCl
 		  dateTimeRange: dateTimeRange,
 		  eventData: Event(
 			title: '$timeRange',
+      //description: "this is the description!",
 		  ),
 		);
   }
@@ -71,7 +95,20 @@ class _ScheduleRouteState extends State<ScheduleRoute> with AutomaticKeepAliveCl
   Future<void> _onEventCreated(CalendarEvent<Event> event) async {
     // Add the event to the events controller.
     eventController.addEvent(event);
-
+    //int eid = ++id; 
+    DateTime start_time = event.start; 
+    DateTime end_time = event.end; 
+    //int creator_id = 1; 
+    String title = event.eventData!.title; 
+    //String description = event.eventData.description; 
+    print("pre post");
+    log("pre post"); 
+    //http.Response response = await postEvent(10,title,"description",start_time,end_time,10); 
+    http.Response response = await postEvent(10,title,"description",1710565200,1710570600,10); 
+    log("after post\n"); 
+    var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    log(jsonResponse); 
     // Deselect the event.
     eventController.deselectEvent();
   }
@@ -193,18 +230,23 @@ class _ScheduleRouteState extends State<ScheduleRoute> with AutomaticKeepAliveCl
 class Event {
   Event({
     required this.title,
-    this.description,
+    //this.description,
     this.color,
+    this.id,
+    this.creatorId,
   });
 
   /// The title of the [Event].
   final String title;
 
   /// The description of the [Event].
-  final String? description;
+  //final String? description;
 
   /// The color of the [Event] tile.
   final Color? color;
+
+  final int? id; 
+  final int? creatorId;
 }
 
 
