@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:friend_me/main.dart';
+import 'package:friend_me/pages/home.dart';
 import '../pages/schedule.dart';
 import 'package:friend_me/pages/profile.dart';
 
@@ -49,9 +50,8 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         // push new page
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MyHomePage(
-                                title:
-                                    'Home')), // temp until home page is seperate
+                            builder: (context) =>
+                                const HomeRoute()), // temp until home page is seperate
                       );
                     },
                     child: Text("Home", style: textstyle)),
