@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:friend_me/pages/home.dart';
+import 'package:friend_me/widgets/backend/backend.dart';
+import 'package:friend_me/widgets/backend/user.dart';
 import 'package:friend_me/widgets/navbar.dart';
+
+
 
 class RegisterRoute extends StatefulWidget {
   const RegisterRoute({super.key});
@@ -25,6 +30,9 @@ class Register extends State<RegisterRoute> {
     super.initState();
   }
 
+
+
+
   void _showProgressIndicator(BuildContext context) {
     showDialog<void>(
       context: context,
@@ -39,7 +47,7 @@ class Register extends State<RegisterRoute> {
     );
   }
 
-  void _showErrorIndicator(BuildContext context) {
+  void _showErrorIndicator(BuildContext context, String error) {
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -47,14 +55,14 @@ class Register extends State<RegisterRoute> {
             child: SizedBox(
             width: MediaQuery.of(context).size.width / 4,
             height: MediaQuery.of(context).size.height / 6,
-            child: const DefaultTextStyle(
-              style: TextStyle(
+            child:  DefaultTextStyle(
+              style: const TextStyle(
                 // defines text style
                 color: Color.fromARGB(255, 179, 64, 64),
                 fontSize: 18,
                 backgroundColor: Colors.grey,
                 ),
-              child: Text("Make sure you fill out all fields")
+              child: Text(error),
             ) 
           )
         );
@@ -62,38 +70,41 @@ class Register extends State<RegisterRoute> {
     );
   }
 
-  void _register(BuildContext context) {
-    _showProgressIndicator(context);
+
+  Future<void> _register(BuildContext context) async{
+     _showProgressIndicator(context);
     if (_firstName.text == "" || _lastName.text == "" || _username.text == "" || _password.text == "" || _email.text == ""){
         Navigator.pop(context);
-        _showErrorIndicator(context);
+        _showErrorIndicator(context, "Fill out all Fields");
         return;
     }
-    // do the HTTP request
+    User user  = User(
+      username: _username.text, 
+      email: _email.text, 
+      firstName: _firstName.text, 
+      lastName: _lastName.text, 
+      password: _password.text
+    );
+    Backend backend = Backend();
+    var response = await backend.register(user);
+    if (!context.mounted) return;
+    if (response.statusCode == 400){
+       Navigator.pop(context);
+       _showErrorIndicator(context, response.body);
+      return;
+    }
+    user.auth = response.body;
+    user.password = '';
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+        const HomeRoute()), // temp until home page is seperate
+      );
   }
 
-
-
-
-  
-   
-
-
-
-
-/*
-  FutureBuilder<String>(
-  future: lazyValue,
-  builder: (context, snapshot) {
-    if (snapshot.hasData) {
-      return Text(snapshot.data!);
-    } else {
-      return const CircularProgressIndicator();
-    }
-  },
-),
-
-*/
 
   @override
   Widget build(BuildContext context) {
@@ -285,9 +296,7 @@ class Register extends State<RegisterRoute> {
                                     child: FloatingActionButton(
                                       heroTag: "register",
                                       onPressed: () {
-                                        _register(context);
-                            
-
+                                       _register(context);
                                       },
                                       backgroundColor: Colors.green,
                                       child: const Text('Register',
