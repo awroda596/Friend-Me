@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:friend_me/pages/home.dart';
 import 'package:friend_me/pages/register.dart';
+import 'package:friend_me/pages/signin.dart';
 import '../pages/schedule.dart';
 import 'package:friend_me/pages/profile.dart';
 
@@ -111,7 +112,16 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                     OutlinedButton(
                       // Friends button
                       style: outlineButtonStyle,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop; // pops currnet page
+                        Navigator.push(
+                          // push new page
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const Signinroute(), // signin
+                          ));
+                      },
                       child: Text("Login", style: textstyle)
                     ),
                     OutlinedButton(
@@ -124,7 +134,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                 RegisterRoute(), // temp until home page is seperate
+                                 const RegisterRoute(), // register
                           ));
                       },
                       child: Text("Sign up", style: textstyle)

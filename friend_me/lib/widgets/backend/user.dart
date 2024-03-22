@@ -1,6 +1,8 @@
 
 
 
+// Unsure if any of this will be used at all, will determine based on upcomming meetings in class/ end of sprint
+
 class User {
   final String username;
   final String email;
