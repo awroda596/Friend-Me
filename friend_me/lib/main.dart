@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
+import 'package:friend_me/pages/home.dart';
+
 import 'package:friend_me/widgets/navbar.dart';
 
 void main() {
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
 				PointerDeviceKind.touch,		
 			},
 		  ), */
-      home: const MyHomePage(title: 'Home'),
+      home: const HomeRoute(),
     );
   }
 }

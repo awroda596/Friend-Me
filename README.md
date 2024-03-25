@@ -17,7 +17,8 @@ methods: POST <br>
 accepts: JSON <br>
 adds user to DB(parameters: username, email, first_name, last_name, password) <br>
 returns: JSON Auth Token <br>
-login -> server:port/api/users/signup <br>
+login -> server:port/api/users/login <br>
 accepts: JSON <br>
 methods: POST <br>
+checks user info against DB to sign in(parameters: email, password) <br>
 returns: JSON AuthToken

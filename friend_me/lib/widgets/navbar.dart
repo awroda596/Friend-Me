@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:friend_me/main.dart';
+import 'package:friend_me/pages/home.dart';
+import 'package:friend_me/pages/register.dart';
+import 'package:friend_me/pages/signin.dart';
 import '../pages/schedule.dart';
 import 'package:friend_me/pages/profile.dart';
 
@@ -34,10 +36,18 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             // children in the column
             const Text("Friend Me"), // text
             Row(
+              // Center the Icons
+              crossAxisAlignment: CrossAxisAlignment.start, // Optional
+              mainAxisAlignment: MainAxisAlignment.spaceBetween, 
               // sets row of menu items
               children: [
                 // children
-                OutlinedButton(
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start, // Optional
+                  mainAxisAlignment: MainAxisAlignment.start, 
+                  // sets row of menu items
+                  children: [
+                    OutlinedButton(
                     // home button
                     style: outlineButtonStyle,
                     onPressed: () {
@@ -46,13 +56,12 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         // push new page
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MyHomePage(
-                                title:
-                                    'Home')), // temp until home page is seperate
+                            builder: (context) =>
+                                const HomeRoute()), // temp until home page is seperate
                       );
                     },
                     child: Text("Home", style: textstyle)),
-                OutlinedButton(
+                    OutlinedButton(
                     // profile button
                     style: outlineButtonStyle,
                     onPressed: () {
@@ -66,34 +75,77 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                           ));
                     },
                     child: Text("Profile", style: textstyle)),
-                OutlinedButton(
+                    OutlinedButton(
                     // profile button
-                    style: outlineButtonStyle,
-                    onPressed: () {
-                      Navigator.pop; // pops currnet page
-                      Navigator.push(
+                      style: outlineButtonStyle,
+                      onPressed: () {
+                        Navigator.pop; // pops currnet page
+                        Navigator.push(
                           // push new page
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
                                 const ScheduleRoute(), // temp until home page is seperate
                           ));
-                    },
-                    child: Text("Schedule", style: textstyle)),
-                OutlinedButton(
-                    // Friends button
-                    style: outlineButtonStyle,
-                    onPressed: () {},
-                    child: Text("Friends", style: textstyle)),
-                OutlinedButton(
+                      },
+                      child: Text("Schedule", style: textstyle)
+                    ),
+                    OutlinedButton(
+                      // Friends button
+                      style: outlineButtonStyle,
+                      onPressed: () {},
+                      child: Text("Friends", style: textstyle)
+                    ),
+                    OutlinedButton(
                     // Settings button
-                    style: outlineButtonStyle,
-                    onPressed: () {},
-                    child: Text("Settings", style: textstyle)),
+                      style: outlineButtonStyle,
+                      onPressed: () {},
+                      child: Text("Settings", style: textstyle)
+                    ),
+                  ]
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start, // Optional
+                  mainAxisAlignment: MainAxisAlignment.start, 
+              // sets row of menu items
+                  children: [
+                    OutlinedButton(
+                      // Friends button
+                      style: outlineButtonStyle,
+                      onPressed: () {
+                        Navigator.pop; // pops currnet page
+                        Navigator.push(
+                          // push new page
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const Signinroute(), // signin
+                          ));
+                      },
+                      child: Text("Login", style: textstyle)
+                    ),
+                    OutlinedButton(
+                    // Settings button
+                      style: outlineButtonStyle,
+                      onPressed: () {
+                        Navigator.pop; // pops currnet page
+                        Navigator.push(
+                          // push new page
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                 const RegisterRoute(), // register
+                          ));
+                      },
+                      child: Text("Sign up", style: textstyle)
+                    ),
+                  ]
+                )
               ],
             )
           ],
-        ));
+        )
+      );
   }
 
   @override
