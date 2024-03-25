@@ -22,3 +22,16 @@ venv/*
 #indexing files
 .DS_Store
 thumbs.db
+
+# Django pycache
+friend_me_backend/profiles/__pycache__/
+friend_me_backend/profiles/migrations/__pycache__/
+friend_me_backend/schedules/__pycache__/
+friend_me_backend/schedules/migrations/__pycache__/
+friend_me_backend/users/__pycache__/
+friend_me_backend/users/migrations/__pycache__/
+friend_me_backend/events/__pycache__/
+friend_me_backend/events/migrations/__pycache__/
+friend_me_backend/api/__pycache__/
+friend_me_backend/api/migrations/__pycache__/
+friend_me_backend/friend_me_backend/__pycache__/
