@@ -1,23 +1,59 @@
 import 'package:friend_me/widgets/navbar.dart';
-import 'package:flutter/foundation.dart';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:kalender/kalender.dart';
-import 'package:friend_me/widgets/profile_setting.dart';
+
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 
 class HomeRoute extends StatelessWidget {
   const HomeRoute({super.key});
-
-  @override
+ // appBar: const NavBar(),
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const NavBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<ProfileScreen>(
+                  builder: (context) => ProfileScreen(
+                    appBar: AppBar(
+                      title: const Text('User Profile'),
+                    ),
+                    actions: [
+                      SignedOutAction((context) {
+                        Navigator.of(context).pop();
+                      })
+                    ],
+                    children: [
+                      const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: Image.asset('../assets/images/Profile.png'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          )
+        ],
+        automaticallyImplyLeading: false,
+      ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigate to the second screen when tapped.
-          },
-          child: const Text('Launch screen'),
+        child: Column(
+          children: [
+            Image.asset('../assets/images/Profile.png'),
+            Text(
+              'Welcome!',
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
+            const SignOutButton(),
+          ],
         ),
       ),
     );
