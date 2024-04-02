@@ -9,6 +9,8 @@ class HomeRoute extends StatelessWidget {
    @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const NavBar(),
+      /*
       appBar: AppBar(
         actions: [
           IconButton(
@@ -44,10 +46,11 @@ class HomeRoute extends StatelessWidget {
         ],
         automaticallyImplyLeading: false,
       ),
+      */
+      
       body: Center(
         child: Column(
           children: [
-            Image.asset('../assets/images/Profile.png'),
             Text(
               'Welcome!',
               style: Theme.of(context).textTheme.displaySmall,
