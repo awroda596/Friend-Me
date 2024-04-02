@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:friend_me/pages/home.dart';
-import '../pages/schedule.dart';
+import 'package:friend_me/pages/settings.dart';
+import '../pages/schedule.dart'; // Alternate way of things
 import 'package:friend_me/pages/profile.dart';
 
 // Class for the nav bar
@@ -92,10 +93,18 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                           style: outlineButtonStyle,
                           onPressed: () {},
                           child: Text("Friends", style: textstyle)),
+                      // Settings button
                       OutlinedButton(
-                          // Settings button
                           style: outlineButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {Navigator.pop; // pops currnet page
+                            Navigator.push(
+                                // push new page
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const SettingsRoute(), // temp until home page is seperate
+                                ));
+                          },
                           child: Text("Settings", style: textstyle)),
                     ]),
               ],

@@ -1,7 +1,7 @@
 import 'package:friend_me/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+// import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 
 class HomeRoute extends StatelessWidget {
   const HomeRoute({super.key});
@@ -55,7 +55,7 @@ class HomeRoute extends StatelessWidget {
               'Welcome!',
               style: Theme.of(context).textTheme.displaySmall,
             ),
-            const SignOutButton(),
+           //  const SignOutButton(),
           ],
         ),
       ),
