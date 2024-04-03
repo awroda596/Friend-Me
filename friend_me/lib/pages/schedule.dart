@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
-import 'package:friend_me/widgets/profile_setting.dart';
 
 class ScheduleRoute extends StatefulWidget {
   const ScheduleRoute({super.key});
