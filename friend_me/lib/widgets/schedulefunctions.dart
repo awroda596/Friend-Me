@@ -9,20 +9,24 @@ import 'dart:convert';
 
 //Future<List<CalendarEvent<Event>>>
 void fetchEvents(CalendarEventsController controller) async {
-  List<HTTPEvent> events = [];
+  //List<HTTPEvent> events = [];
+  print('getting events\n');
+  String url = "http://127.0.0.1:8000/eventsdetails";
   var response =
-      await http.get(Uri.parse('http://127.0.0.1:8000/eventsdetails'));
+      await http.get(Uri.parse(url));
+  print('${response.body}');
   Iterable list = json.decode(response.body);
-  events = list.map((model) => HTTPEvent.fromJson(model)).toList();
+  List<HTTPEvent> events = List<HTTPEvent>.from(list.map((model) => HTTPEvent.fromJson(model))); 
   for (var i = 0; i < events.length; i++) {
     var current = events[i];
-    String start = getTime(current.start_time);
-    String end = getTime(current.end_time);
+    print('event[i] description: ${current.start_time}');
+    String start = getTime( DateTime.parse(current.start_time));
+    String end = getTime( DateTime.parse(current.end_time));
     String timerange = '$start-$end';
     controller.addEvent(CalendarEvent<Event>(
         dateTimeRange: DateTimeRange(
-          start: current.start_time,
-          end: current.end_time,
+          start: DateTime.parse(current.start_time),
+          end: DateTime.parse(current.end_time),
         ),
         eventData: Event(
             title: timerange,
@@ -48,11 +52,15 @@ String getTime(DateTime DT) {
   return time;
 }
 
+DateTime getDateTime(String st){
+  return DateTime.parse(st); 
+}
+
 //class to hold data from the http.get request.  may replace Event with this.
 class HTTPEvent {
   final String details;
-  final DateTime start_time;
-  final DateTime end_time;
+  final String start_time;
+  final String end_time;
   //final int creator_id
 
   HTTPEvent(
@@ -62,14 +70,14 @@ class HTTPEvent {
 
   factory HTTPEvent.fromJson(Map<String, dynamic> json) {
     return HTTPEvent(
-      details: json['details'] as String,
-      start_time: json['start_time'] as DateTime,
-      end_time: json['end_time'] as DateTime,
+      details: json['description'] as String,
+      start_time: json['start_time'] as String,
+      end_time: json['end_time'] as String,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'details': details,
+        'description': details,
         'start_time': start_time,
         'end_time': end_time,
       };
