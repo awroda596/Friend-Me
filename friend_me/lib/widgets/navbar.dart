@@ -70,7 +70,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const ProfileRoute(), // temp until home page is seperate
+                                       ProfileRoute(), // temp until home page is seperate
                                 ));
                           },
                           child: Text("Profile", style: textstyle)),
