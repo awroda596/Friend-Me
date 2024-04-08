@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 import 'package:friend_me/widgets/schedulefunctions.dart';
 import 'package:friend_me/widgets/event.dart'; 
-import 'package:http/http.dart'; 
+
 
 
 class ScheduleRoute extends StatefulWidget {
@@ -72,13 +72,12 @@ class _ScheduleRouteState extends State<ScheduleRoute>
         onCreateEvent: _onCreateEvent,
         onEventCreated: _onEventCreated,
       ),
-    );
-    fetchEvents(eventController); 
+    ); 
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: const NavBar(),
-        drawer: Drawer(
+        drawer: Drawer( //remove/replace soon
           child: ListView(
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
@@ -106,7 +105,17 @@ class _ScheduleRouteState extends State<ScheduleRoute>
             ],
             ),
         ),
-        body: calendar,
+        body: FutureBuilder(
+          future: fetchEvents(calendar.eventsController),
+          builder: (context, AsyncSnapshot snapshot)
+          {
+            return snapshot.connectionState == ConnectionState.waiting
+
+                ? CircularProgressIndicator()
+
+                : calendar; 
+          }
+        )
       ),
     );
   }

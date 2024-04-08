@@ -8,7 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 
 //Future<List<CalendarEvent<Event>>>
-void fetchEvents(CalendarEventsController controller) async {
+Future fetchEvents(CalendarEventsController controller) async {
   //List<HTTPEvent> events = [];
   print('getting events\n');
   String url = "http://127.0.0.1:8000/eventsdetails";
