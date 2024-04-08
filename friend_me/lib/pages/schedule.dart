@@ -3,6 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
+import 'package:friend_me/widgets/schedulefunctions.dart';
+import 'package:friend_me/widgets/event.dart'; 
+
+
 
 class ScheduleRoute extends StatefulWidget {
   const ScheduleRoute({super.key});
@@ -18,7 +22,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   final CalendarEventsController<Event> eventController =
       CalendarEventsController<Event>();
 
-  //currrent configuration to hold current view and list to hold week and month view.
+  //current configuration to hold current view and list to hold week and month view.
   late ViewConfiguration currentConfiguration = viewConfigurations[0];
   List<ViewConfiguration> viewConfigurations = [
     WeekConfiguration(),
@@ -27,9 +31,27 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   ];
 
   @override
+
+
+  /* get events from backend
+
+  Future<List<CalendarEvent<Event>>> fetchEvents(eventsController) async{
+    final response = await http.get(Uri.parse('https://127.0.0.1:8000/eventdetails'))
+    if (response.statusCode == 200) {
+    List<CalendarEvent<Event>>  djangoEvents;
+    // If the server did return a 200 OK response,
+    // parse data and fill list
+    //for loop
+    } else {
+      // If no 200 response, throw exception
+      throw Exception('Failed to load events');
+    }  
+  } */
+
   void initState() {
     super.initState();
     DateTime now = DateTime.now();
+    //final List<CalendarEvent<Event>> myEvents = fetchEvents(eventsController);  //load events from Django
   }
 
   @override
@@ -50,12 +72,50 @@ class _ScheduleRouteState extends State<ScheduleRoute>
         onCreateEvent: _onCreateEvent,
         onEventCreated: _onEventCreated,
       ),
-    );
+    ); 
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: const NavBar(),
-        body: calendar,
+        drawer: Drawer( //remove/replace soon
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text('Drawer Header'),
+              ),
+              ListTile(
+                title: const Text('Item 1'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: const Text('Item 2'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+            ],
+            ),
+        ),
+        body: FutureBuilder(
+          future: fetchEvents(calendar.eventsController),
+          builder: (context, AsyncSnapshot snapshot)
+          {
+            return snapshot.connectionState == ConnectionState.waiting
+
+                ? CircularProgressIndicator()
+
+                : calendar; 
+          }
+        )
       ),
     );
   }
@@ -94,7 +154,12 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   Future<void> _onEventChanged(
     DateTimeRange initialDateTimeRange,
     CalendarEvent<Event> event,
+    
   ) async {
+    String start = getTime(event.dateTimeRange.start);
+    String end = getTime(event.dateTimeRange.end);
+    String timeRange = "$start - $end";
+    event.eventData?.title = timeRange; 
     if (isMobile) {
       eventController.deselectEvent();
     }
@@ -174,12 +239,6 @@ class _ScheduleRouteState extends State<ScheduleRoute>
           onPressed: controller.animateToNextPage,
           icon: const Icon(Icons.navigate_next_rounded),
         ),
-        Column(
-          children: <Widget>[
-            for (var item in eventController.events)
-              Text(getTitle(item.eventData))
-          ],
-        ),
       ],
     );
   }
@@ -190,29 +249,6 @@ class _ScheduleRouteState extends State<ScheduleRoute>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-//eventDetails
-class Event {
-  Event({
-    required this.title,
-    this.description,
-    this.color,
-  });
-
-  /// The title of the [Event].
-  final String title;
-
-  /// The description of the [Event].
-  final String? description;
-
-  /// The color of the [Event] tile.
-  final Color? color;
-}
-
-String getTime(DateTime DT) {
-  String time = "${DT.hour}:${DT.minute}";
-  return time;
 }
 
 String getTitle(Event? e) {
