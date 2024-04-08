@@ -19,9 +19,12 @@ Future fetchEvents(CalendarEventsController controller) async {
   List<HTTPEvent> events = List<HTTPEvent>.from(list.map((model) => HTTPEvent.fromJson(model))); 
   for (var i = 0; i < events.length; i++) {
     var current = events[i];
-    print('event[i] description: ${current.start_time}');
+    print('event[i] start: ${current.start_time}');
+    print('event[i] end: ${current.end_time}');
     String start = getTime( DateTime.parse(current.start_time));
     String end = getTime( DateTime.parse(current.end_time));
+    print('parsed start: ${start}');
+    print('parsed end: ${start}');
     String timerange = '$start-$end';
     controller.addEvent(CalendarEvent<Event>(
         dateTimeRange: DateTimeRange(

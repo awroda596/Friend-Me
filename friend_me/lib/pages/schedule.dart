@@ -154,7 +154,12 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   Future<void> _onEventChanged(
     DateTimeRange initialDateTimeRange,
     CalendarEvent<Event> event,
+    
   ) async {
+    String start = getTime(event.dateTimeRange.start);
+    String end = getTime(event.dateTimeRange.end);
+    String timeRange = "$start - $end";
+    event.eventData?.title = timeRange; 
     if (isMobile) {
       eventController.deselectEvent();
     }
