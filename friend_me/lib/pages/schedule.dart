@@ -225,12 +225,6 @@ class _ScheduleRouteState extends State<ScheduleRoute>
           onPressed: controller.animateToNextPage,
           icon: const Icon(Icons.navigate_next_rounded),
         ),
-        Column(
-          children: <Widget>[
-            for (var item in eventController.events)
-              Text(getTitle(item.eventData))
-          ],
-        ),
       ],
     );
   }
@@ -242,9 +236,6 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   @override
   bool get wantKeepAlive => true;
 }
-
-
-
 
 String getTitle(Event? e) {
   String title = e?.title ?? "null";
