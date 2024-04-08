@@ -10,7 +10,7 @@ class Event {
   });
 
   /// The title of the [Event]. //used to show the start/end time in calendar view. 
-  final String title;
+  String title;
 
   /// The description of the [Event]. unused, can likley be removed later. 
   final String? description;

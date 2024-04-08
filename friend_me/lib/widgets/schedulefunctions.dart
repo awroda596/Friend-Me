@@ -40,18 +40,20 @@ Future fetchEvents(CalendarEventsController controller) async {
 }
 
 String getTime(DateTime DT) {
-  String Hour, Minute;
+  String Hour, Minute, PM;
   if (DT.hour > 12) {
     Hour = "${DT.hour - 12}";
+    PM = "PM";
   } else {
     Hour = "${DT.hour}";
+    PM = "AM"; 
   }
   if (DT.minute < 10) {
     Minute = "0${DT.minute}";
   } else {
     Minute = "${DT.minute}";
   }
-  String time = "$Hour:$Minute";
+  String time = "$Hour:$Minute$PM";
   return time;
 }
 
