@@ -70,7 +70,6 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https:\/\/localhost:*([0-9]+)?$",
 ]
 
-
 ROOT_URLCONF = 'friend_me_backend.urls'
 
 TEMPLATES = [
