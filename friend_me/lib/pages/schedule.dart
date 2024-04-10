@@ -121,10 +121,11 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   }
 
   CalendarEvent<Event> _onCreateEvent(DateTimeRange dateTimeRange) {
+    String start = getTime(dateTimeRange.start);
     return CalendarEvent(
       dateTimeRange: dateTimeRange,
       eventData: Event(
-        title: '',
+        title: '$start',
       ),
     );
   }
