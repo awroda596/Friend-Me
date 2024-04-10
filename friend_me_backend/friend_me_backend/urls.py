@@ -20,7 +20,7 @@ from events import views
 from rest_framework import routers
 
 router = routers.DefaultRouter(trailing_slash=False)
-router.register('eventsdetails', views.Event)
+router.register(r'eventsdetails', views.Event)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

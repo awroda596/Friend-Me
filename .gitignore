@@ -38,3 +38,6 @@ friend_me_backend/events/migrations/__pycache__/
 friend_me_backend/api/__pycache__/
 friend_me_backend/api/migrations/__pycache__/
 friend_me_backend/friend_me_backend/__pycache__/
+
+# vscode settings
+.vscode/
