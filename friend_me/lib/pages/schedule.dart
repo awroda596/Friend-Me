@@ -122,17 +122,21 @@ class _ScheduleRouteState extends State<ScheduleRoute>
 
   CalendarEvent<Event> _onCreateEvent(DateTimeRange dateTimeRange) {
     String start = getTime(dateTimeRange.start);
-    String end = getTime(dateTimeRange.end);
-    String timeRange = "$start - $end";
     return CalendarEvent(
       dateTimeRange: dateTimeRange,
       eventData: Event(
-        title: '$timeRange',
+        title: '$start',
       ),
     );
   }
 
   Future<void> _onEventCreated(CalendarEvent<Event> event) async {
+    String start = getTime(event.dateTimeRange.start);
+    String end = getTime(event.dateTimeRange.end);
+    String timeRange = "$start - $end";
+    event.eventData?.title = timeRange;
+    //push to back end; 
+
     // Add the event to the events controller.
     eventController.addEvent(event);
 
