@@ -53,21 +53,21 @@ Future<http.Response> postEvent(CalendarEvent<Event> event){
   );
 }
 
-String getTime(DateTime DT) {
-  String Hour, Minute, PM;
-  if (DT.hour > 12) {
-    Hour = "${DT.hour - 12}";
-    PM = "PM";
+String getTime(DateTime dateTime) {
+  String dHour, dMinute, timeOfDay;
+  if (dateTime.hour > 12) {
+    dHour = "${dateTime.hour - 12}";
+    timeOfDay = "PM";
   } else {
-    Hour = "${DT.hour}";
-    PM = "AM"; 
+    dHour = "${dateTime.hour}";
+    timeOfDay = "AM"; 
   }
-  if (DT.minute < 10) {
-    Minute = "0${DT.minute}";
+  if (dateTime.minute < 10) {
+    dMinute = "0${dateTime.minute}";
   } else {
-    Minute = "${DT.minute}";
+    dMinute = "${dateTime.minute}";
   }
-  String time = "$Hour:$Minute$PM";
+  String time = "$dHour:$dMinute$timeOfDay";
   return time;
 }
 
