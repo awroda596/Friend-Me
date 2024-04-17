@@ -136,8 +136,13 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     String timeRange = "$start - $end";
     event.eventData?.title = timeRange;
     //push to back end; 
-
-    // Add the event to the events controller.
+    final response = await postEvent(event); 
+    if(response.statusCode == 200)
+    {
+      print("successful post!");
+      //place addEvent here when backend works
+    }
+    // Add the event to the events controller if pushed
     eventController.addEvent(event);
 
     // Deselect the event.

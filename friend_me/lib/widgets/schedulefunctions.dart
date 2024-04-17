@@ -1,5 +1,4 @@
 //schedule functions.  http stuff can probably be moved into backend.dart
-import 'dart:math';
 import 'package:friend_me/widgets/event.dart';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
@@ -13,18 +12,17 @@ Future fetchEvents(CalendarEventsController controller) async {
   print('getting events\n');
   String url = "http://127.0.0.1:8000/eventsdetails";
   var response =
-      await http.get(Uri.parse(url));
-  print('${response.body}');
+      await http.get(Uri.parse(url),
+      headers: {
+    'Authorization':  'put auth token here',
+  },
+      );
   Iterable list = json.decode(response.body);
   List<HTTPEvent> events = List<HTTPEvent>.from(list.map((model) => HTTPEvent.fromJson(model))); 
   for (var i = 0; i < events.length; i++) {
     var current = events[i];
-    print('event[i] start: ${current.start_time}');
-    print('event[i] end: ${current.end_time}');
     String start = getTime( DateTime.parse(current.start_time));
     String end = getTime( DateTime.parse(current.end_time));
-    print('parsed start: ${start}');
-    print('parsed end: ${start}');
     String timerange = '$start-$end';
     controller.addEvent(CalendarEvent<Event>(
         dateTimeRange: DateTimeRange(
@@ -37,6 +35,22 @@ Future fetchEvents(CalendarEventsController controller) async {
             color: Colors.blue)));
   }
   return;
+}
+
+Future<http.Response> postEvent(CalendarEvent<Event> event){
+  return http.post(
+    Uri.parse('http://127.0.0.1:8000/eventsdetails'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'place auth token here',
+    },
+    body: jsonEncode(<String, String>{
+      'title': "${event.eventData?.title}",
+      'start_time': "${event.dateTimeRange.start}",
+      'end_time': "${event.dateTimeRange.end}",
+      'description': "${event.eventData?.description}",
+    }),
+  );
 }
 
 String getTime(DateTime DT) {
