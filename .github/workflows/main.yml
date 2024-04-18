@@ -1,5 +1,5 @@
 on: push
-name: Test, Build
+name: Flutter Build Web
 jobs:
   build:
     name: Build web
