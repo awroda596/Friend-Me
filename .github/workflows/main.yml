@@ -10,7 +10,9 @@ jobs:
       with:
         java-version: '12.x'
     - uses: subosito/flutter-action@v2
-      with: 
+      with:
+        cache: true
         channel: stable
+    - run: cd friend_me
     - run: flutter pub get
     - run: flutter build web
