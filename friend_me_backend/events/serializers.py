@@ -4,13 +4,10 @@ from .models import Event
 
 
 class EventSerializer(serializers.ModelSerializer):
-  creator_name = serializers.RelatedField(
-    source='creator', 
-    read_only=True)
   class Meta:
     model = Event
     fields = [
-      'creator_name',
+      'creator',
       'title',
       'description',
       'start_time',
