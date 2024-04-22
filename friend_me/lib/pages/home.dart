@@ -1,53 +1,15 @@
 import 'package:friend_me/widgets/navbar.dart';
 import 'package:flutter/material.dart';
-
-// import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+// Returns username
+import 'package:friend_me/auth/user.dart';
 
 class HomeRoute extends StatelessWidget {
   const HomeRoute({super.key});
- // appBar: const NavBar(),
-   @override
+  // appBar: const NavBar(),
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const NavBar(),
-      /*
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<ProfileScreen>(
-                  builder: (context) => ProfileScreen(
-                    appBar: AppBar(
-                      title: const Text('User Profile'),
-                    ),
-                    actions: [
-                      SignedOutAction((context) {
-                        Navigator.of(context).pop();
-                      })
-                    ],
-                    children: [
-                      const Divider(),
-                      Padding(
-                        padding: const EdgeInsets.all(2),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Image.asset('../assets/images/Profile.png'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          )
-        ],
-        automaticallyImplyLeading: false,
-      ),
-      */
-      
       body: Center(
         child: Column(
           children: [
@@ -55,7 +17,23 @@ class HomeRoute extends StatelessWidget {
               'Welcome!',
               style: Theme.of(context).textTheme.displaySmall,
             ),
-           //  const SignOutButton(),
+            FutureBuilder<String?>(
+              future: getUsername(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(); // Display a loading indicator while waiting for the result
+                } else if (snapshot.hasError) {
+                  return Text(
+                      'Error: ${snapshot.error}'); // Display an error message if there's an error
+                } else {
+                  final username = snapshot.data;
+                  return Text(
+                    'Username: ${username ?? "Not logged in"}',
+                    style: TextStyle(fontSize: 18),
+                  ); // Display the username if available, otherwise display a default message
+                }
+              },
+            ),
           ],
         ),
       ),
