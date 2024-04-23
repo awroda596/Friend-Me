@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:friend_me/pages/profile.dart';
+import 'package:friend_me/picture.dart';
 import 'package:friend_me/widgets/navbar.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileCreationRoute extends StatefulWidget {
@@ -17,13 +14,10 @@ class ProfileCreationRoute extends StatefulWidget {
 
 class ProfileCreation extends State<ProfileCreationRoute> {
   ProfileCreation();
-  late bool _background = false;
-  late bool _profile = false;
+
 
   late int textSize;
 
-  Uint8List _webProfileImage = Uint8List(8);
-  Uint8List _webBackgroundImage = Uint8List(8);
   
   final TextEditingController _privateName = TextEditingController();
   final TextEditingController _publicName = TextEditingController();
@@ -51,7 +45,7 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<String> ?profileBio;
   Future<String> ?privateName;
   Future<String> ?publicName;
-
+  Picture getpicture = Picture();
 
   @override
   void initState() {
@@ -79,84 +73,22 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   }
 
   // future function to get the pics in shared prefs if it exists, future to update page if pics exist
-  Future<void> _getPics() async {
-    String profilePic = await  _prefs.then((SharedPreferences prefs){
-      return (prefs.getString('profilePic') ?? 'NULL');
-    });
-    String backgroundPic = await  _prefs.then((SharedPreferences prefs){
-      return (prefs.getString('backgroundImage') ?? 'NULL');
-    });
-    if (profilePic == 'NULL'){
-      _profile = false;
-    }
-    else{
-      _profile = true;
-      _webProfileImage = base64Decode(profilePic);
-    }
-   if (backgroundPic == 'NULL'){
-      _background = false;
-    }
-    else{
-      _background = true;
-      _webBackgroundImage = base64Decode(backgroundPic);
-    }
-  }
-
-
+  
   Future<void> _getPhoto() async{
-    if(kIsWeb){
-      final SharedPreferences prefs = await _prefs;
-      bool success = false;
-      final ImagePicker picker = ImagePicker();
-      XFile? image = await picker.pickImage(source: ImageSource.gallery);
-      if (image != null){
-        var web = await image.readAsBytes();
-        String base64Image = base64Encode(web);
-        success = await prefs.setString("profilePic", base64Image);
-        if (!success){
-            if (kDebugMode) {
-              print("profile Pic not saved");
-            }
-        }
-        save();
+      await getpicture.getPhoto();
+      save();
         setState(() {
-        });
-      }
-      else {
-        if (kDebugMode) {
-          print("No image was selected");
-        }
-      }
-    }
+      });
   }
 
 
 // note that background and profile pic is being saved automatically
     Future<void>  _getBackground() async{
-     if(kIsWeb){
-      final SharedPreferences prefs = await _prefs;
-      bool success = false;
-      final ImagePicker picker = ImagePicker();
-      XFile? image = await picker.pickImage(source: ImageSource.gallery);
-      if (image != null){
-        var web = await image.readAsBytes();
-        String base64Image = base64Encode(web);
-        success = await prefs.setString("backgroundImage", base64Image);
-        if (!success){
-            if (kDebugMode) {
-              print("profile Pic not saved");
-            }
-        }
+      await getpicture.getBackground();
+      save();
         setState(() {
         });
-      }
-      else {
-        if (kDebugMode) {
-          print("No image was selected");
-        }
-      }
-    }
-
+     
   }
 
 
@@ -299,7 +231,7 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
                     ),
                   ]))),
                   FutureBuilder<void>(
-                    future: _getPics(),
+                    future: getpicture.getPics(),
                     builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.none:
@@ -339,8 +271,8 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
                                   decoration:  BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                    image:  _profile ?
-                                    Image.memory(_webProfileImage).image
+                                    image:  getpicture.checkPhoto() ?
+                                    Image.memory(getpicture.getProfilePhoto()).image
                                       :const AssetImage(
                                         'images/Profile.png'), // stock image
                                         fit: BoxFit.scaleDown,
@@ -386,8 +318,8 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
                                       decoration: BoxDecoration(
                                         color: const Color(0xff7c94b6),
                                         image:  DecorationImage(
-                                          image: _background == true? 
-                                          Image.memory(_webBackgroundImage).image // if true , do this
+                                          image: getpicture.checkBackground() == true? 
+                                          Image.memory(getpicture.getProfileBackground()).image // if true , do this
                                          : const AssetImage( // else do this
                                           'images/Profile_template.png'), // stock image
                                           fit: BoxFit.fill,
