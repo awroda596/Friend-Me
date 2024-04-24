@@ -78,7 +78,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: const NavBar(),
-        drawer: Drawer( //remove/replace soon
+        endDrawer: Drawer( //remove/replace soon
           child: ListView(
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,

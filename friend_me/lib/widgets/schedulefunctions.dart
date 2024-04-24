@@ -9,26 +9,35 @@ import 'package:friend_me/auth/user.dart';
 
 //Future<List<CalendarEvent<Event>>>
 Future fetchEvents(CalendarEventsController controller, String? UID) async {
+  DateTime now = DateTime.now();
   //List<HTTPEvent> events = [];
   print('getting events\n');
   String url = "http://127.0.0.1:8000/eventsdetails";
   var response =
       await http.get(Uri.parse(url),
       headers: {
-    'Authorization':  'put auth token here',
+    'Authorization':  '$UID',
   },
   );
   Iterable list = json.decode(response.body);
   List<HTTPEvent> events = List<HTTPEvent>.from(list.map((model) => HTTPEvent.fromJson(model))); 
   for (var i = 0; i < events.length; i++) {
     var current = events[i];
-    String start = getTime( DateTime.parse(current.start_time));
-    String end = getTime( DateTime.parse(current.end_time));
+    DateTime DTStart = getDateTime(current.start_time); 
+    DateTime DTEnd = getDateTime(current.end_time); 
+    String start = getTime( DTStart);
+    String end = getTime( DTEnd);
+    //print("range: $start-$end");
+    //print("DT range: $DTStart-$DTEnd"); 
     String timerange = '$start-$end';
+    print("${DateTimeRange(
+          start: DTStart,
+          end: DTEnd,
+        )}");
     controller.addEvent(CalendarEvent<Event>(
         dateTimeRange: DateTimeRange(
-          start: DateTime.parse(current.start_time),
-          end: DateTime.parse(current.end_time),
+          start: DTStart,
+          end: DTEnd,
         ),
         eventData: Event(
             title: timerange,
@@ -47,7 +56,7 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID){
       'Authorization': '$UID',
     },
     body: jsonEncode(<String, String>{
-      'creator_name': "1",
+      'creator': "1",
       'title': "${event.eventData?.title}",
       'start_time': "${event.dateTimeRange.start}",
       'end_time': "${event.dateTimeRange.end}",
@@ -58,8 +67,13 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID){
 
 String getTime(DateTime dateTime) {
   String dHour, dMinute, timeOfDay;
-  if (dateTime.hour > 12) {
-    dHour = "${dateTime.hour - 12}";
+  if (dateTime.hour > 11) {
+    if(dateTime.hour > 12){
+      dHour = "${dateTime.hour - 12}";
+    }
+    else{
+      dHour = "${dateTime.hour}";
+    }
     timeOfDay = "PM";
   } else {
     dHour = "${dateTime.hour}";
