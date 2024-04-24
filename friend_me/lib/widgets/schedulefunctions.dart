@@ -30,10 +30,7 @@ Future fetchEvents(CalendarEventsController controller, String? UID) async {
     //print("range: $start-$end");
     //print("DT range: $DTStart-$DTEnd"); 
     String timerange = '$start-$end';
-    print("${DateTimeRange(
-          start: DTStart,
-          end: DTEnd,
-        )}");
+    //print("${DateTimeRange(start: DTStart, end: DTEnd, )}");
     controller.addEvent(CalendarEvent<Event>(
         dateTimeRange: DateTimeRange(
           start: DTStart,
@@ -89,8 +86,10 @@ String getTime(DateTime dateTime) {
 }
 
 DateTime getDateTime(String st){
+  st = st.substring(0, st.length -1); 
   return DateTime.parse(st); 
 }
+
 
 //class to hold data from the http.get request.  may replace Event with this.
 class HTTPEvent {

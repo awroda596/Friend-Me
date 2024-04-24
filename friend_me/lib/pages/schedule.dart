@@ -33,22 +33,6 @@ class _ScheduleRouteState extends State<ScheduleRoute>
 
   @override
 
-
-  /* get events from backend
-
-  Future<List<CalendarEvent<Event>>> fetchEvents(eventsController) async{
-    final response = await http.get(Uri.parse('https://127.0.0.1:8000/eventdetails'))
-    if (response.statusCode == 200) {
-    List<CalendarEvent<Event>>  djangoEvents;
-    // If the server did return a 200 OK response,
-    // parse data and fill list
-    //for loop
-    } else {
-      // If no 200 response, throw exception
-      throw Exception('Failed to load events');
-    }  
-  } */
-
   void initState() {
     super.initState();
     DateTime now = DateTime.now();
