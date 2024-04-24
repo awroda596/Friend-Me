@@ -5,9 +5,10 @@ import 'package:kalender/kalender.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:friend_me/auth/user.dart';
 
 //Future<List<CalendarEvent<Event>>>
-Future fetchEvents(CalendarEventsController controller) async {
+Future fetchEvents(CalendarEventsController controller, String? UID) async {
   //List<HTTPEvent> events = [];
   print('getting events\n');
   String url = "http://127.0.0.1:8000/eventsdetails";
@@ -16,7 +17,7 @@ Future fetchEvents(CalendarEventsController controller) async {
       headers: {
     'Authorization':  'put auth token here',
   },
-      );
+  );
   Iterable list = json.decode(response.body);
   List<HTTPEvent> events = List<HTTPEvent>.from(list.map((model) => HTTPEvent.fromJson(model))); 
   for (var i = 0; i < events.length; i++) {
@@ -34,17 +35,19 @@ Future fetchEvents(CalendarEventsController controller) async {
             description: current.details,
             color: Colors.blue)));
   }
+  UID = await getUsername(); 
   return;
 }
 
-Future<http.Response> postEvent(CalendarEvent<Event> event){
+Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID){
   return http.post(
     Uri.parse('http://127.0.0.1:8000/eventsdetails'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'place auth token here',
+      'Authorization': '$UID',
     },
     body: jsonEncode(<String, String>{
+      'creator_name': "1",
       'title': "${event.eventData?.title}",
       'start_time': "${event.dateTimeRange.start}",
       'end_time': "${event.dateTimeRange.end}",
