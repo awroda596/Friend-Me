@@ -18,6 +18,7 @@ class ScheduleRoute extends StatefulWidget {
 class _ScheduleRouteState extends State<ScheduleRoute>
     with AutomaticKeepAliveClientMixin {
   //calendar and events controller
+  late String? UID = null; 
   final CalendarController<Event> controller = CalendarController();
   final CalendarEventsController<Event> eventController =
       CalendarEventsController<Event>();
@@ -106,7 +107,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
             ),
         ),
         body: FutureBuilder(
-          future: fetchEvents(calendar.eventsController),
+          future: fetchEvents(calendar.eventsController, UID),
           builder: (context, AsyncSnapshot snapshot)
           {
             return snapshot.connectionState == ConnectionState.waiting
@@ -136,8 +137,13 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     String timeRange = "$start - $end";
     event.eventData?.title = timeRange;
     //push to back end; 
-
-    // Add the event to the events controller.
+    final response = await postEvent(event, UID); 
+    if(response.statusCode == 200)
+    {
+      print("successful post!");
+      //place addEvent here when backend works
+    }
+    // Add the event to the events controller if pushed
     eventController.addEvent(event);
 
     // Deselect the event.
