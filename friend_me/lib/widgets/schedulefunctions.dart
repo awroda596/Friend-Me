@@ -8,17 +8,19 @@ import 'dart:convert';
 import 'package:friend_me/auth/user.dart';
 
 //Future<List<CalendarEvent<Event>>>
-Future fetchEvents(CalendarEventsController controller, String? UID) async {
+Future<http.Response> fetchEvents(CalendarEventsController controller, String? UID) async {
+  UID = await getUsername();
   DateTime now = DateTime.now();
   //List<HTTPEvent> events = [];
-  print('getting events\n');
+  //print('getting events\n');
   String url = "http://127.0.0.1:8000/eventsdetails";
-  var response =
+  http.Response response =
       await http.get(Uri.parse(url),
       headers: {
     'Authorization':  '$UID',
   },
   );
+  print("response: ${response.statusCode}");
   Iterable list = json.decode(response.body);
   List<HTTPEvent> events = List<HTTPEvent>.from(list.map((model) => HTTPEvent.fromJson(model))); 
   for (var i = 0; i < events.length; i++) {
@@ -41,8 +43,7 @@ Future fetchEvents(CalendarEventsController controller, String? UID) async {
             description: current.details,
             color: Colors.blue)));
   }
-  UID = await getUsername(); 
-  return;
+  return response;
 }
 
 Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID){
