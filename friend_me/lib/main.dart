@@ -7,7 +7,7 @@ import '../auth/app.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  final locale = await findSystemLocale();
+  final locale = await findSystemLocale();  //set local time
   Intl.defaultLocale = locale;
   await initializeDateFormatting(locale);
   WidgetsFlutterBinding.ensureInitialized();

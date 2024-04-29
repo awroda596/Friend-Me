@@ -1,3 +1,4 @@
+import 'package:friend_me/auth/user.dart';
 import 'package:friend_me/widgets/navbar.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
@@ -40,6 +41,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
 
   @override
   Widget build(BuildContext context) {
+    late String? UID;
     final calendar = CalendarView<Event>(
       controller: controller,
       eventsController: eventController,
@@ -90,8 +92,10 @@ class _ScheduleRouteState extends State<ScheduleRoute>
               ],
             ),
           ),
-          body: FutureBuilder<http.Response>(
-              future: fetchEvents(calendar.eventsController, UID),
+          // Future builder. waits for connection and Displays calendar on succcessful return from backend, otherwise shows error screen or loading circle appropriately
+          //FutureResults holds UID and initial response from http.get.  
+          body: FutureBuilder<FutureResults>(
+              future: _getResults(calendar.eventsController),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -102,8 +106,8 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                           strokeWidth: 2,
                         ),
                       ]));
-                } else if (snapshot.data.statusCode != 200) {
-                  print("response: ${snapshot.data.statusCode}");
+                } else if (snapshot.data.Response.statusCode != 200) {
+                  print("response: ${snapshot.data.Response.statusCode}");
                   print("snapshot: ${snapshot.connectionState}");
                   return Center(
                     child: Column(
@@ -121,6 +125,29 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                     ),
                   );
                 }
+                else if (snapshot.data.UID == null) {
+                  print("response: ${snapshot.data.UID}");
+                  print("snapshot: ${snapshot.connectionState}");
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          'could not retrive Username!',
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {});
+                            },
+                            child: Text('Retry'))
+                      ],
+                    ),
+                  );
+                }
+                print("response: ${snapshot.data.Response.statusCode}");
+                print("snapshot: ${snapshot.connectionState}");
+                UID = snapshot.data.UID;
+                print("user ID : $UID");              
                 return calendar;
               })),
     );
@@ -229,9 +256,11 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     );
   }
 
+  // Controls the calendar header.  
   Widget _calendarHeader(DateTimeRange dateTimeRange) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        //width constrraints.  will need to fine tune. 
         final buttonWidth = constraints.maxWidth < 600 ? 120.0 : 250.0;
         final viewWidth = constraints.maxWidth < 600 ? 80.0 : 150.0;
         final padding = constraints.maxWidth < 600 ? 0.0 : 4.0;
@@ -271,8 +300,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              dateButton,
-              Padding(
+              Padding( //page left button
                 padding: EdgeInsets.only(left: padding),
                 child: IconButton.filledTonal(
                   onPressed: () {
@@ -282,7 +310,8 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                   tooltip: 'Previous Page',
                 ),
               ),
-              Padding(
+              dateButton, //year - month and date picker
+              Padding( // page right butrton
                 padding: EdgeInsets.only(left: padding),
                 child: IconButton.filledTonal(
                   onPressed: () {
@@ -292,7 +321,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                   tooltip: 'Next Page',
                 ),
               ),
-              Padding(
+              Padding( // move to current date
                 padding: EdgeInsets.only(left: padding),
                 child: IconButton.filledTonal(
                   onPressed: () {
@@ -309,7 +338,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(
+                    Padding(  //drop down menu for month vs week view
                       padding: EdgeInsets.symmetric(horizontal: padding),
                       child: DropdownMenu(
                         width: viewWidth,
@@ -345,6 +374,12 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   bool get isMobile {
     return kIsWeb ? false : Platform.isAndroid || Platform.isIOS;
   }
+  //gets values for future builder
+  Future<FutureResults> _getResults(CalendarEventsController controller) async {
+    final String? _uid = await getUsername(); 
+    final http.Response _response = await fetchEvents(controller, _uid);
+    return FutureResults(Response: _response, UID : _uid);
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -354,3 +389,11 @@ String getTitle(Event? e) {
   String title = e?.title ?? "null";
   return title;
 }
+
+//holds values for future builder
+class FutureResults{
+  final http.Response Response; 
+  final String? UID; 
+  FutureResults({required this.Response, required this.UID});
+}
+
