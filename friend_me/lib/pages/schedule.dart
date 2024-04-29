@@ -1,12 +1,13 @@
+import 'package:friend_me/auth/user.dart';
 import 'package:friend_me/widgets/navbar.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 import 'package:friend_me/widgets/schedulefunctions.dart';
-import 'package:friend_me/widgets/event.dart'; 
-
-
+import 'package:friend_me/widgets/event.dart';
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class ScheduleRoute extends StatefulWidget {
   const ScheduleRoute({super.key});
@@ -18,7 +19,7 @@ class ScheduleRoute extends StatefulWidget {
 class _ScheduleRouteState extends State<ScheduleRoute>
     with AutomaticKeepAliveClientMixin {
   //calendar and events controller
-  late String? UID = null; 
+  late String? UID;
   final CalendarController<Event> controller = CalendarController();
   final CalendarEventsController<Event> eventController =
       CalendarEventsController<Event>();
@@ -32,10 +33,9 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   ];
 
   @override
-
   void initState() {
     super.initState();
-    DateTime now = DateTime.now();
+    //DateTime now = DateTime.now();
     //final List<CalendarEvent<Event>> myEvents = fetchEvents(eventsController);  //load events from Django
   }
 
@@ -57,51 +57,98 @@ class _ScheduleRouteState extends State<ScheduleRoute>
         onCreateEvent: _onCreateEvent,
         onEventCreated: _onEventCreated,
       ),
-    ); 
+    );
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: const NavBar(),
-        endDrawer: Drawer( //remove/replace soon
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
+          backgroundColor: Colors.white,
+          appBar: const NavBar(),
+          endDrawer: Drawer(
+            //remove/replace soon
+            child: ListView(
+              // Important: Remove any padding from the ListView.
+              padding: EdgeInsets.zero,
+              children: [
+                const DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Text('Drawer Header'),
                 ),
-                child: Text('Drawer Header'),
-              ),
-              ListTile(
-                title: const Text('Item 1'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                title: const Text('Item 2'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-            ],
+                ListTile(
+                  title: const Text('Item 1'),
+                  onTap: () {
+                    // Update the state of the app.
+                    // ...
+                  },
+                ),
+                ListTile(
+                  title: const Text('Item 2'),
+                  onTap: () {
+                    // Update the state of the app.
+                    // ...
+                  },
+                ),
+              ],
             ),
-        ),
-        body: FutureBuilder(
-          future: fetchEvents(calendar.eventsController, UID),
-          builder: (context, AsyncSnapshot snapshot)
-          {
-            return snapshot.connectionState == ConnectionState.waiting
-
-                ? CircularProgressIndicator()
-
-                : calendar; 
-          }
-        )
-      ),
+          ),
+          // Future builder. waits for connection and Displays calendar on succcessful return from backend, otherwise shows error screen or loading circle appropriately
+          //FutureResults holds UID and initial response from http.get.  
+          body: FutureBuilder<FutureResults>(
+              future: _getResults(calendar.eventsController),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                        CircularProgressIndicator(
+                          strokeWidth: 2,
+                        ),
+                      ]));
+                } else if (snapshot.data.Response.statusCode != 200) {
+                  print("response: ${snapshot.data.Response.statusCode}");
+                  print("snapshot: ${snapshot.connectionState}");
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          'Could not connect to backend!',
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {});
+                            },
+                            child: Text('Retry'))
+                      ],
+                    ),
+                  );
+                }
+                else if (snapshot.data.UID == null) {
+                  print("response: ${snapshot.data.UID}");
+                  print("snapshot: ${snapshot.connectionState}");
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          'could not retrive Username!',
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {});
+                            },
+                            child: Text('Retry'))
+                      ],
+                    ),
+                  );
+                }
+                print("response: ${snapshot.data.Response.statusCode}");
+                print("snapshot: ${snapshot.connectionState}");
+                UID = snapshot.data.UID;
+                print("user ID : $UID");              
+                return calendar;
+              })),
     );
   }
 
@@ -120,15 +167,16 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
     event.eventData?.title = timeRange;
-    //push to back end; 
-    final response = await postEvent(event, UID); 
-    if(response.statusCode == 200)
-    {
+    //push to back end;
+    var response = await postEvent(event, UID);
+    print("Response status code: ${response.statusCode}");
+    if (response.statusCode == 201) {
       print("successful post!");
-      //place addEvent here when backend works
+      eventController.addEvent(event); //only add event to calendar if successfully sent to backend
     }
-    // Add the event to the events controller if pushed
-    eventController.addEvent(event);
+    else{
+      // add pop up dialogue here if event fails to post
+    }
 
     // Deselect the event.
     eventController.deselectEvent();
@@ -148,12 +196,11 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   Future<void> _onEventChanged(
     DateTimeRange initialDateTimeRange,
     CalendarEvent<Event> event,
-    
   ) async {
     String start = getTime(event.dateTimeRange.start);
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
-    event.eventData?.title = timeRange; 
+    event.eventData?.title = timeRange;
     if (isMobile) {
       eventController.deselectEvent();
     }
@@ -210,35 +257,129 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     );
   }
 
+  // Controls the calendar header.  
   Widget _calendarHeader(DateTimeRange dateTimeRange) {
-    return Row(
-      children: [
-        DropdownMenu(
-          onSelected: (value) {
-            if (value == null) return;
-            setState(() {
-              currentConfiguration = value;
-            });
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        //width constrraints.  will need to fine tune. 
+        final buttonWidth = constraints.maxWidth < 600 ? 120.0 : 250.0;
+        final viewWidth = constraints.maxWidth < 600 ? 80.0 : 150.0;
+        final padding = constraints.maxWidth < 600 ? 0.0 : 4.0;
+        final buttonHeight = constraints.maxWidth < 600 ? 40.0 : 48.0;
+
+        final dateFormat = constraints.maxWidth < 600
+            ? DateFormat('yyyy - MMM')
+            : DateFormat('yyyy - MMMM');
+
+        final dateButton = FilledButton.tonal(
+          style: ButtonStyle(
+            minimumSize: MaterialStateProperty.all<Size>(
+              Size(buttonWidth, buttonHeight),
+            ),
+          ),
+          onPressed: () async {
+            DateTime? selectedDate = await showDatePicker(
+              context: context,
+              initialDate: dateTimeRange.start,
+              firstDate: DateTime(1970),
+              lastDate: DateTime(2040),
+            );
+            if (selectedDate == null) return;
+
+            controller.animateToDate(
+              selectedDate,
+            );
           },
-          initialSelection: currentConfiguration,
-          dropdownMenuEntries: viewConfigurations
-              .map((e) => DropdownMenuEntry(value: e, label: e.name))
-              .toList(),
-        ),
-        IconButton.filledTonal(
-          onPressed: controller.animateToPreviousPage,
-          icon: const Icon(Icons.navigate_before_rounded),
-        ),
-        IconButton.filledTonal(
-          onPressed: controller.animateToNextPage,
-          icon: const Icon(Icons.navigate_next_rounded),
-        ),
-      ],
+          child: Text(
+            dateFormat.format(controller.visibleMonth!),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        );
+
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding( //page left button
+                padding: EdgeInsets.only(left: padding),
+                child: IconButton.filledTonal(
+                  onPressed: () {
+                    controller.animateToPreviousPage();
+                  },
+                  icon: const Icon(Icons.chevron_left),
+                  tooltip: 'Previous Page',
+                ),
+              ),
+              dateButton, //year - month and date picker
+              Padding( // page right butrton
+                padding: EdgeInsets.only(left: padding),
+                child: IconButton.filledTonal(
+                  onPressed: () {
+                    controller.animateToNextPage();
+                  },
+                  icon: const Icon(Icons.chevron_right),
+                  tooltip: 'Next Page',
+                ),
+              ),
+              Padding( // move to current date
+                padding: EdgeInsets.only(left: padding),
+                child: IconButton.filledTonal(
+                  onPressed: () {
+                    controller.animateToDate(
+                      DateTime.now(),
+                      duration: const Duration(milliseconds: 800),
+                    );
+                  },
+                  icon: const Icon(Icons.today),
+                  tooltip: 'Today',
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(  //drop down menu for month vs week view
+                      padding: EdgeInsets.symmetric(horizontal: padding),
+                      child: DropdownMenu(
+                        width: viewWidth,
+                        onSelected: (value) {
+                          if (value == null) return;
+                          setState(() {
+                            currentConfiguration = value;
+                          });
+                        },
+                        initialSelection: currentConfiguration,
+                        dropdownMenuEntries: viewConfigurations
+                            .map((e) =>
+                                DropdownMenuEntry(value: e, label: e.name))
+                            .toList(),
+                        inputDecorationTheme: const InputDecorationTheme(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                          border: OutlineInputBorder(gapPadding: 16),
+                          constraints:
+                              BoxConstraints(maxHeight: 42, minHeight: 38),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 
   bool get isMobile {
     return kIsWeb ? false : Platform.isAndroid || Platform.isIOS;
+  }
+  //gets values for future builder
+  Future<FutureResults> _getResults(CalendarEventsController controller) async {
+    final String? _uid = await getUsername(); 
+    final http.Response _response = await fetchEvents(controller, _uid);
+    return FutureResults(Response: _response, UID : _uid);
   }
 
   @override
@@ -249,3 +390,11 @@ String getTitle(Event? e) {
   String title = e?.title ?? "null";
   return title;
 }
+
+//holds values for future builder
+class FutureResults{
+  final http.Response Response; 
+  final String? UID; 
+  FutureResults({required this.Response, required this.UID});
+}
+
