@@ -45,6 +45,8 @@ Future<http.Response> fetchEvents(CalendarEventsController controller, String? U
 
 
 Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID){
+  print("Posting!"); 
+  print("UID: $UID"); 
   return http.post(
     Uri.parse('http://127.0.0.1:8000/eventsdetails'),
     headers: <String, String>{

@@ -19,7 +19,7 @@ class ScheduleRoute extends StatefulWidget {
 class _ScheduleRouteState extends State<ScheduleRoute>
     with AutomaticKeepAliveClientMixin {
   //calendar and events controller
-  late String? UID = null;
+  late String? UID;
   final CalendarController<Event> controller = CalendarController();
   final CalendarEventsController<Event> eventController =
       CalendarEventsController<Event>();
@@ -41,7 +41,6 @@ class _ScheduleRouteState extends State<ScheduleRoute>
 
   @override
   Widget build(BuildContext context) {
-    late String? UID;
     final calendar = CalendarView<Event>(
       controller: controller,
       eventsController: eventController,
