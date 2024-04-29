@@ -168,13 +168,15 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     String timeRange = "$start - $end";
     event.eventData?.title = timeRange;
     //push to back end;
-    final response = await postEvent(event, UID);
-    if (response.statusCode == 200) {
+    var response = await postEvent(event, UID);
+    print("Response status code: ${response.statusCode}");
+    if (response.statusCode == 201) {
       print("successful post!");
-      //place addEvent here when backend works
+      eventController.addEvent(event); //only add event to calendar if successfully sent to backend
     }
-    // Add the event to the events controller if pushed
-    eventController.addEvent(event);
+    else{
+      // add pop up dialogue here if event fails to post
+    }
 
     // Deselect the event.
     eventController.deselectEvent();
