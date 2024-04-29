@@ -105,7 +105,9 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                           strokeWidth: 2,
                         ),
                       ]));
-                } else if (snapshot.data.Response.statusCode != 200) {
+                }
+                if(snapshot.hasData && !snapshot.hasError){
+                  if (snapshot.hasData && snapshot.data.Response.statusCode != 200) {
                   print("response: ${snapshot.data.Response.statusCode}");
                   print("snapshot: ${snapshot.connectionState}");
                   return Center(
@@ -114,6 +116,9 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                       children: <Widget>[
                         const Text(
                           'Could not connect to backend!',
+                        ),
+                        Text(
+                          'error code: ${snapshot.data.Response.statusCode}',
                         ),
                         ElevatedButton(
                             onPressed: () {
@@ -124,7 +129,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                     ),
                   );
                 }
-                else if (snapshot.data.UID == null) {
+                else if (snapshot.hasData && snapshot.data.UID == null) {
                   print("response: ${snapshot.data.UID}");
                   print("snapshot: ${snapshot.connectionState}");
                   return Center(
@@ -143,11 +148,23 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                     ),
                   );
                 }
+                else{
                 print("response: ${snapshot.data.Response.statusCode}");
                 print("snapshot: ${snapshot.connectionState}");
                 UID = snapshot.data.UID;
                 print("user ID : $UID");              
                 return calendar;
+                }
+                }                
+                return const Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                    CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                ]));
+
               })),
     );
   }
@@ -378,7 +395,9 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   //gets values for future builder
   Future<FutureResults> _getResults(CalendarEventsController controller) async {
     final String? _uid = await getUsername(); 
-    final http.Response _response = await fetchEvents(controller, _uid);
+    print("uid: $_uid");
+    final http.Response _response = await fetchEvents(controller, _uid); 
+    print("response: ${_response.statusCode}"); 
     return FutureResults(Response: _response, UID : _uid);
   }
 
