@@ -9,24 +9,26 @@ import 'package:friend_me/auth/user.dart';
 
 //Future<List<CalendarEvent<Event>>>
 // Function gets Events from the back end and returns the HTTP response.   Function also gets the User ID.
-Future<http.Response> fetchEvents(CalendarEventsController controller, String? UID) async {
+Future<http.Response> fetchEvents(
+    CalendarEventsController controller, String? UID) async {
   String url = "http://127.0.0.1:8000/eventsdetails";
-  http.Response response =
-      await http.get(Uri.parse(url),
-      headers: {
-    'Authorization':  '$UID',
-  },
+  http.Response response = await http.get(
+    Uri.parse(url),
+    headers: {
+      'Authorization': '$UID',
+    },
   );
   Iterable list = json.decode(response.body);
-  List<HTTPEvent> events = List<HTTPEvent>.from(list.map((model) => HTTPEvent.fromJson(model))); 
+  List<HTTPEvent> events =
+      List<HTTPEvent>.from(list.map((model) => HTTPEvent.fromJson(model)));
   for (var i = 0; i < events.length; i++) {
     var current = events[i];
-    DateTime DTStart = getDateTime(current.start_time); 
-    DateTime DTEnd = getDateTime(current.end_time); 
-    String start = getTime( DTStart);
-    String end = getTime( DTEnd);
+    DateTime DTStart = getDateTime(current.start_time);
+    DateTime DTEnd = getDateTime(current.end_time);
+    String start = getTime(DTStart);
+    String end = getTime(DTEnd);
     //print("range: $start-$end");
-    //print("DT range: $DTStart-$DTEnd"); 
+    //print("DT range: $DTStart-$DTEnd");
     String timerange = '$start-$end';
     //print("${DateTimeRange(start: DTStart, end: DTEnd, )}");
     controller.addEvent(CalendarEvent<Event>(
@@ -42,11 +44,9 @@ Future<http.Response> fetchEvents(CalendarEventsController controller, String? U
   return response;
 }
 
-
-
-Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID){
-  print("Posting!"); 
-  print("UID: $UID"); 
+Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID) {
+  print("Posting!");
+  print("UID: $UID");
   return http.post(
     Uri.parse('http://127.0.0.1:8000/eventsdetails'),
     headers: <String, String>{
@@ -54,7 +54,7 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID){
       'Authorization': '$UID',
     },
     body: jsonEncode(<String, String>{
-      'creator': "1",
+      'UID': "$UID",
       'title': "${event.eventData?.title}",
       'start_time': "${event.dateTimeRange.start}",
       'end_time': "${event.dateTimeRange.end}",
@@ -63,9 +63,9 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID){
   );
 }
 
-Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID){
-  print("modifying!!"); 
-  print("UID: $UID"); 
+Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
+  print("modifying!!");
+  print("UID: $UID");
   return http.put(
     Uri.parse('http://127.0.0.1:8000/eventsdetails'),
     headers: <String, String>{
@@ -74,7 +74,7 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID){
     },
     body: jsonEncode(<String, String>{
       'id': "${event.eventData?.id}",
-      'creator': "1",
+      'UID': "UID",
       'title': "${event.eventData?.title}",
       'start_time': "${event.dateTimeRange.start}",
       'end_time': "${event.dateTimeRange.end}",
@@ -83,9 +83,9 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID){
   );
 }
 
-Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID){
-  print("deleting!"); 
-    return http.put(
+Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID) {
+  print("deleting!");
+  return http.put(
     Uri.parse('http://127.0.0.1:8000/eventsdetails'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
@@ -100,16 +100,15 @@ Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID){
 String getTime(DateTime dateTime) {
   String dHour, dMinute, timeOfDay;
   if (dateTime.hour > 11) {
-    if(dateTime.hour > 12){
+    if (dateTime.hour > 12) {
       dHour = "${dateTime.hour - 12}";
-    }
-    else{
+    } else {
       dHour = "${dateTime.hour}";
     }
     timeOfDay = "PM";
   } else {
     dHour = "${dateTime.hour}";
-    timeOfDay = "AM"; 
+    timeOfDay = "AM";
   }
   if (dateTime.minute < 10) {
     dMinute = "0${dateTime.minute}";
@@ -120,22 +119,21 @@ String getTime(DateTime dateTime) {
   return time;
 }
 
-DateTime getDateTime(String st){
-  st = st.substring(0, st.length -1); 
-  return DateTime.parse(st); 
+DateTime getDateTime(String st) {
+  st = st.substring(0, st.length - 1);
+  return DateTime.parse(st);
 }
-
 
 //class to hold data from the http.get request.  may replace Event with this.
 class HTTPEvent {
-  final int id; 
+  final int id;
   final String details;
   final String start_time;
   final String end_time;
   //final int creator_id
 
   HTTPEvent(
-      { required this.id,
+      {required this.id,
       required this.details,
       required this.start_time,
       required this.end_time});
@@ -150,7 +148,7 @@ class HTTPEvent {
   }
 
   Map<String, dynamic> toJson() => {
-        'id' : id,
+        'id': id,
         'description': details,
         'start_time': start_time,
         'end_time': end_time,
