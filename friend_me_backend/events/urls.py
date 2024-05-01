@@ -8,5 +8,4 @@ router.register(r'eventsdetails', views.Event)
 
 urlpatterns = [
     path('', include(router.urls)),
-    #url('events/<int:id>/', events_list.as_view()),
 ]
