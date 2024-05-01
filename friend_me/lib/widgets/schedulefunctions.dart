@@ -18,6 +18,9 @@ Future<http.Response> fetchEvents(
       'Authorization': '$UID',
     },
   );
+  if (response.statusCode != 200){
+    return response; 
+  }
   Iterable list = json.decode(response.body);
   List<HTTPEvent> events =
       List<HTTPEvent>.from(list.map((model) => HTTPEvent.fromJson(model)));
