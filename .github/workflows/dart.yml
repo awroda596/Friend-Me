@@ -31,7 +31,7 @@ jobs:
       - name: Run python manageserver
         run: |
           cd friend_me_backend
-          python manage.py runserver
+          python manage.py runserver -d
       - name: Flutter setup
         run: |
           sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
