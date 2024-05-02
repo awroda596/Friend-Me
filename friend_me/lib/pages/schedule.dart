@@ -180,6 +180,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   }
 
   Future<void> _onEventCreated(CalendarEvent<Event> event) async {
+    print("event created called\n"); 
     String start = getTime(event.dateTimeRange.start);
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
@@ -202,6 +203,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   Future<void> _onEventTapped(
     CalendarEvent<Event> event,
   ) async {
+    print("Event tapped called");     
     deleteEvent(event, UID);
     eventController.removeEvent(event);
     if (isMobile) {
@@ -215,6 +217,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     DateTimeRange initialDateTimeRange,
     CalendarEvent<Event> event,
   ) async {
+    print("event changed called"); 
     String start = getTime(event.dateTimeRange.start);
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
