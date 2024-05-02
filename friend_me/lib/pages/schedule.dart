@@ -202,6 +202,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   Future<void> _onEventTapped(
     CalendarEvent<Event> event,
   ) async {
+    deleteEvent(event, UID);
     eventController.removeEvent(event);
     if (isMobile) {
       eventController.selectedEvent == event
@@ -218,6 +219,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
     event.eventData?.title = timeRange;
+    var response = await modifyEvent(event, UID);
     if (isMobile) {
       eventController.deselectEvent();
     }
