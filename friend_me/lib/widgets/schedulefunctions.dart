@@ -57,7 +57,7 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID) {
       'Authorization': '$UID',
     },
     body: jsonEncode(<String, String>{
-      'UID': "1",
+      'UID': "$UID",
       'title': "${event.eventData?.title}",
       'start_time': "${event.dateTimeRange.start}",
       'end_time': "${event.dateTimeRange.end}",
@@ -77,7 +77,7 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
     },
     body: jsonEncode(<String, String>{
       'id': "${event.eventData?.id}",
-      'UID': "1",
+      'UID': "$UID",
       'title': "${event.eventData?.title}",
       'start_time': "${event.dateTimeRange.start}",
       'end_time': "${event.dateTimeRange.end}",
