@@ -191,7 +191,16 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     if (response.statusCode == 201) {
       print("successful post!");
       eventController.addEvent(event); //only add event to calendar if successfully sent to backend
+      eventController.clearEvents(); //clear events from event controller
+      response = await fetchEvents(eventController, UID); //refresh from backend
+      if(response.statusCode == 200){
+        print("refreshed events!"); 
+      }
+      else{
+        print("fetch failed!!"); 
+      }
     }
+
     else{
       // add pop up dialogue here if event fails to post
     }
