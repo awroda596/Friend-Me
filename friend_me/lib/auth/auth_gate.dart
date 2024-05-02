@@ -3,7 +3,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:friend_me/pages/profileCreation.dart';
 
-import '../pages/home.dart';
+// import '../pages/home.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
