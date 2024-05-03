@@ -11,7 +11,6 @@ import 'package:friend_me/auth/user.dart';
 // Function gets Events from the back end and returns the HTTP response.   Function also gets the User ID.
 Future<http.Response> fetchEvents(
     CalendarEventsController controller, String? UID) async {
-  print("getting events");
   String url = "http://127.0.0.1:8000/eventsdetails";
   http.Response response = await http.get(
     Uri.parse(url),
@@ -58,11 +57,45 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID) {
       'Authorization': '$UID',
     },
     body: jsonEncode(<String, String>{
-      'creator': "1",
+      'UID': "$UID",
       'title': "${event.eventData?.title}",
       'start_time': "${event.dateTimeRange.start}",
       'end_time': "${event.dateTimeRange.end}",
       'description': "${event.eventData?.description}",
+    }),
+  );
+}
+
+Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
+  print("modifying!!");
+  print("UID: $UID");
+  return http.put(
+    Uri.parse('http://127.0.0.1:8000/eventsdetails'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': '$UID',
+    },
+    body: jsonEncode(<String, String>{
+      'id': "${event.eventData?.id}",
+      'UID': "$UID",
+      'title': "${event.eventData?.title}",
+      'start_time': "${event.dateTimeRange.start}",
+      'end_time': "${event.dateTimeRange.end}",
+      'description': "${event.eventData?.description}",
+    }),
+  );
+}
+
+Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID) {
+  print("deleting!");
+  return http.put(
+    Uri.parse('http://127.0.0.1:8000/eventsdetails'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': '$UID',
+    },
+    body: jsonEncode({
+      'id': event.eventData?.id,
     }),
   );
 }
@@ -96,18 +129,21 @@ DateTime getDateTime(String st) {
 
 //class to hold data from the http.get request.  may replace Event with this.
 class HTTPEvent {
+  final int id;
   final String details;
   final String start_time;
   final String end_time;
   //final int creator_id
 
   HTTPEvent(
-      {required this.details,
+      {required this.id,
+      required this.details,
       required this.start_time,
       required this.end_time});
 
   factory HTTPEvent.fromJson(Map<String, dynamic> json) {
     return HTTPEvent(
+      id: json['id'] as int,
       details: json['description'] as String,
       start_time: json['start_time'] as String,
       end_time: json['end_time'] as String,
@@ -115,6 +151,7 @@ class HTTPEvent {
   }
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'description': details,
         'start_time': start_time,
         'end_time': end_time,

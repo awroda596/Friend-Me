@@ -180,6 +180,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   }
 
   Future<void> _onEventCreated(CalendarEvent<Event> event) async {
+    print("event created called\n"); 
     String start = getTime(event.dateTimeRange.start);
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
@@ -190,7 +191,16 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     if (response.statusCode == 201) {
       print("successful post!");
       eventController.addEvent(event); //only add event to calendar if successfully sent to backend
+      eventController.clearEvents(); //clear events from event controller
+      response = await fetchEvents(eventController, UID); //refresh from backend
+      if(response.statusCode == 200){
+        print("refreshed events!"); 
+      }
+      else{
+        print("fetch failed!!"); 
+      }
     }
+
     else{
       // add pop up dialogue here if event fails to post
     }
@@ -202,6 +212,8 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   Future<void> _onEventTapped(
     CalendarEvent<Event> event,
   ) async {
+    print("Event tapped called");     
+    deleteEvent(event, UID);
     eventController.removeEvent(event);
     if (isMobile) {
       eventController.selectedEvent == event
@@ -214,10 +226,12 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     DateTimeRange initialDateTimeRange,
     CalendarEvent<Event> event,
   ) async {
+    print("event changed called"); 
     String start = getTime(event.dateTimeRange.start);
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
     event.eventData?.title = timeRange;
+    var response = await modifyEvent(event, UID);
     if (isMobile) {
       eventController.deselectEvent();
     }
