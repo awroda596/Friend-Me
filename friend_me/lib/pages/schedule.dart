@@ -213,8 +213,14 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     CalendarEvent<Event> event,
   ) async {
     print("Event tapped called");     
-    deleteEvent(event, UID);
-    eventController.removeEvent(event);
+    var response = await deleteEvent(event, UID);
+    if (response.statusCode >= 200 && response.statusCode <= 205){
+      eventController.removeEvent(event);
+    }
+    else{
+      eventController.clearEvents(); 
+      setState((){}); 
+    }    
     if (isMobile) {
       eventController.selectedEvent == event
           ? eventController.deselectEvent()
@@ -232,6 +238,13 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     String timeRange = "$start - $end";
     event.eventData?.title = timeRange;
     var response = await modifyEvent(event, UID);
+    if (response.statusCode >= 200 && response.statusCode <= 205){
+
+    }
+    else{
+      eventController.clearEvents(); 
+      setState((){}); 
+    }
     if (isMobile) {
       eventController.deselectEvent();
     }
