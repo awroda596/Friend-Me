@@ -420,13 +420,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     return kIsWeb ? false : Platform.isAndroid || Platform.isIOS;
   }
   //gets values for future builder
-  Future<FutureResults> _getResults(CalendarEventsController controller) async {
-    final String? _uid = await getUsername(); 
-    print("uid: $_uid");
-    final http.Response _response = await fetchEvents(controller, _uid); 
-    print("response: ${_response.statusCode}"); 
-    return FutureResults(Response: _response, UID : _uid);
-  }
+
 
   @override
   bool get wantKeepAlive => true;
@@ -444,3 +438,10 @@ class FutureResults{
   FutureResults({required this.Response, required this.UID});
 }
 
+  Future<FutureResults> _getResults(CalendarEventsController controller) async {
+    final String? _uid = await getUsername(); 
+    print("uid: $_uid");
+    final http.Response _response = await fetchEvents(controller, _uid); 
+    print("response: ${_response.statusCode}"); 
+    return FutureResults(Response: _response, UID : _uid);
+  }
