@@ -1,6 +1,5 @@
-import 'package:friend_me/widgets/event.dart';
 import 'package:flutter/material.dart';
-
+import '../auth/user.dart'; 
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -27,14 +26,16 @@ Future<http.Response> GetFriends(String? Email) async {
   if (response.statusCode != 200){
     return response; 
   }
-  Iterable list = json.decode(response.body);
-  //List<HTTPUser> users =
-    //  List<HTTPUser>.from(list.map((model) => HTTPUser.fromJson(model)));
- // for (var i = 0; i < users.length; i++) {
-   // var current = users[i];
-
-  //}
  return response;
+}
+
+DecodeFriends(http.Response response){
+  
+}
+
+//friend class based on 
+class Friend{
+
 }
 
 
