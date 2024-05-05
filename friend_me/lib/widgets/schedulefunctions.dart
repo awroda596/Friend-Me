@@ -88,7 +88,7 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
 
 Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID) {
   print("deleting!");
-  return http.put(
+  return http.delete(
     Uri.parse('http://127.0.0.1:8000/eventsdetails'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
