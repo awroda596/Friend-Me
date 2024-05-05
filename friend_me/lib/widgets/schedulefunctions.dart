@@ -5,6 +5,20 @@ import 'package:kalender/kalender.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:friend_me/auth/user.dart'; 
+class FutureResults{
+  final http.Response Response; 
+  final String? UID; 
+  FutureResults({required this.Response, required this.UID});
+}
+
+  Future<FutureResults> getResults(CalendarEventsController controller) async {
+    final String? _uid = await getUsername(); 
+    print("uid: $_uid");
+    final http.Response _response = await fetchEvents(controller, _uid); 
+    print("response: ${_response.statusCode}"); 
+    return FutureResults(Response: _response, UID : _uid);
+  }
 
 //Future<List<CalendarEvent<Event>>>
 // Function gets Events from the back end and returns the HTTP response.   Function also gets the User ID.
