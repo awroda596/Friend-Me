@@ -16,7 +16,7 @@ Future<http.Response> fetchEvents(
     host: '127.0.0.1',
     port: 8000,
     path: 'eventsdetails',
-    //queryParameters: {'UID' : '$UID'},
+    queryParameters: {'UID' : '$UID'},
   );
   print(url); 
   http.Response response = await http.get(
