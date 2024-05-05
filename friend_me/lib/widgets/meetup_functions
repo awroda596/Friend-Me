@@ -7,13 +7,13 @@ import 'dart:convert';
 
 
 //Function to respond to a meetup (acccept/decline/etc.).  sends UID, id (meetup id), and userresponse to back end
-Future<http.Response> RespondToMeetUp(String? UserResponse, String? UID. int id) async
+Future<http.Response> respondToMeetUp(String? UserResponse, String? UID. int id) async
 {
   var url = Uri(
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'meetups',
+    path: 'meetups', //placeholder url, replace with backend url. 
     //queryParameters: {'UID' : '$UID'}, //own user id as query string.
   );
   http.Response response = await http.post(
@@ -24,7 +24,7 @@ Future<http.Response> RespondToMeetUp(String? UserResponse, String? UID. int id)
     },
     body: jsonEncode(<String, String>{
       'UID': "$UID",
-      'id': "$id"
+      'id': "$id",
       'response': "$UserResponse",
     }),
   );
@@ -42,7 +42,7 @@ Future<http.Response> FetchMeetUps() async
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'meetups',
+    path: 'meetups', //placeholder url, replace with backend url. 
     //queryParameters: {'UID' : '$UID'}, //own user id as query string.
   );
   http.Response response = await http.get(
