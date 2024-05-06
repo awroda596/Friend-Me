@@ -18,7 +18,6 @@ Future<http.Response> fetchUsers(String? UID, String? QueryType, String? QueryPa
     host: host,
     port: port,
     path: path,
-    queryParameters: {'UID' : '$UID'}, //own user id as query string.
   );
   }
   else{
