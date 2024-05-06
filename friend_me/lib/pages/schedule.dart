@@ -105,7 +105,9 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                           strokeWidth: 2,
                         ),
                       ]));
-                } else if (snapshot.data.Response.statusCode != 200) {
+                }
+                if(snapshot.hasData && !snapshot.hasError){
+                  if (snapshot.hasData && snapshot.data.Response.statusCode != 200) {
                   print("response: ${snapshot.data.Response.statusCode}");
                   print("snapshot: ${snapshot.connectionState}");
                   return Center(
@@ -114,6 +116,9 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                       children: <Widget>[
                         const Text(
                           'Could not connect to backend!',
+                        ),
+                        Text(
+                          'error code: ${snapshot.data.Response.statusCode}',
                         ),
                         ElevatedButton(
                             onPressed: () {
@@ -124,7 +129,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                     ),
                   );
                 }
-                else if (snapshot.data.UID == null) {
+                else if (snapshot.hasData && snapshot.data.UID == null) {
                   print("response: ${snapshot.data.UID}");
                   print("snapshot: ${snapshot.connectionState}");
                   return Center(
@@ -143,11 +148,23 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                     ),
                   );
                 }
+                else{
                 print("response: ${snapshot.data.Response.statusCode}");
                 print("snapshot: ${snapshot.connectionState}");
                 UID = snapshot.data.UID;
                 print("user ID : $UID");              
                 return calendar;
+                }
+                }                
+                return const Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                    CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                ]));
+
               })),
     );
   }
@@ -163,6 +180,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   }
 
   Future<void> _onEventCreated(CalendarEvent<Event> event) async {
+    print("event created called\n"); 
     String start = getTime(event.dateTimeRange.start);
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
@@ -173,7 +191,16 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     if (response.statusCode == 201) {
       print("successful post!");
       eventController.addEvent(event); //only add event to calendar if successfully sent to backend
+      eventController.clearEvents(); //clear events from event controller
+      response = await fetchEvents(eventController, UID); //refresh from backend
+      if(response.statusCode == 200){
+        print("refreshed events!"); 
+      }
+      else{
+        print("fetch failed!!"); 
+      }
     }
+
     else{
       // add pop up dialogue here if event fails to post
     }
@@ -185,7 +212,15 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   Future<void> _onEventTapped(
     CalendarEvent<Event> event,
   ) async {
-    eventController.removeEvent(event);
+    print("Event tapped called");     
+    var response = await deleteEvent(event, UID);
+    if (response.statusCode >= 200 && response.statusCode <= 205){
+      eventController.removeEvent(event);
+    }
+    else{
+      eventController.clearEvents(); 
+      setState((){}); 
+    }    
     if (isMobile) {
       eventController.selectedEvent == event
           ? eventController.deselectEvent()
@@ -197,10 +232,19 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     DateTimeRange initialDateTimeRange,
     CalendarEvent<Event> event,
   ) async {
+    print("event changed called"); 
     String start = getTime(event.dateTimeRange.start);
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
     event.eventData?.title = timeRange;
+    var response = await modifyEvent(event, UID);
+    if (response.statusCode >= 200 && response.statusCode <= 205){
+
+    }
+    else{
+      eventController.clearEvents(); 
+      setState((){}); 
+    }
     if (isMobile) {
       eventController.deselectEvent();
     }
@@ -378,7 +422,9 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   //gets values for future builder
   Future<FutureResults> _getResults(CalendarEventsController controller) async {
     final String? _uid = await getUsername(); 
-    final http.Response _response = await fetchEvents(controller, _uid);
+    print("uid: $_uid");
+    final http.Response _response = await fetchEvents(controller, _uid); 
+    print("response: ${_response.statusCode}"); 
     return FutureResults(Response: _response, UID : _uid);
   }
 
