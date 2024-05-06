@@ -8,7 +8,7 @@ class EventSerializer(serializers.ModelSerializer):
     model = Event
     fields = [
       'id',
-      'UID',
+      'uid',
       'title',
       'description',
       'start_time',
