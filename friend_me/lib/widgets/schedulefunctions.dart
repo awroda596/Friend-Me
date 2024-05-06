@@ -5,26 +5,27 @@ import 'package:kalender/kalender.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:friend_me/auth/user.dart'; 
-class FutureResults{
-  final http.Response Response; 
-  final String? UID; 
+import 'package:friend_me/auth/user.dart';
+
+class FutureResults {
+  final http.Response Response;
+  final String? UID;
   FutureResults({required this.Response, required this.UID});
 }
 
-  Future<FutureResults> getResults(CalendarEventsController controller) async {
-    final String? _uid = await getUsername(); 
-    print("uid: $_uid");
-    final http.Response _response = await fetchEvents(controller, _uid); 
-    print("response: ${_response.statusCode}"); 
-    return FutureResults(Response: _response, UID : _uid);
-  }
+Future<FutureResults> getResults(CalendarEventsController controller) async {
+  final String? _uid = await getUsername();
+  print("uid: $_uid");
+  final http.Response _response = await fetchEvents(controller, _uid);
+  print("response: ${_response.statusCode}");
+  return FutureResults(Response: _response, UID: _uid);
+}
 
 //Future<List<CalendarEvent<Event>>>
 // Function gets Events from the back end and returns the HTTP response.   Function also gets the User ID.
 Future<http.Response> fetchEvents(
     CalendarEventsController controller, String? UID) async {
-  print("getting events"); 
+  print("getting events");
   var url = Uri(
     scheme: 'http',
     host: '127.0.0.1',
@@ -32,15 +33,15 @@ Future<http.Response> fetchEvents(
     path: 'eventsdetails_uid/$UID',
     //queryParameters: {'UID' : '$UID'},
   );
-  print(url); 
+  print(url);
   http.Response response = await http.get(
     url,
     headers: {
       'Authorization': '$UID',
     },
   );
-  if (response.statusCode != 200){
-    return response; 
+  if (response.statusCode != 200) {
+    return response;
   }
   Iterable list = json.decode(response.body);
   List<HTTPEvent> events =
