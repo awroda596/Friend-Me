@@ -29,7 +29,7 @@ Future<http.Response> fetchEvents(
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails',
+    path: 'eventsdetails/<str:uid>',
     queryParameters: {'UID' : '$UID'},
   );
   print(url); 
@@ -75,7 +75,7 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails',
+    path: 'eventsdetails/<int:pk>',
   );
   return http.post(
     url,
@@ -100,7 +100,7 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails',
+    path: 'eventsdetails/<int:pk>',
   );
   return http.put(
     url,
