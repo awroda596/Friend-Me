@@ -1,19 +1,40 @@
-//schedule functions.  http stuff can probably be moved into backend.dart
+//schedule functions.
 import 'package:friend_me/widgets/event.dart';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:friend_me/auth/user.dart';
+import 'package:friend_me/auth/user.dart'; 
+class FutureResults{
+  final http.Response Response; 
+  final String? UID; 
+  FutureResults({required this.Response, required this.UID});
+}
+
+  Future<FutureResults> getResults(CalendarEventsController controller) async {
+    final String? _uid = await getUsername(); 
+    print("uid: $_uid");
+    final http.Response _response = await fetchEvents(controller, _uid); 
+    print("response: ${_response.statusCode}"); 
+    return FutureResults(Response: _response, UID : _uid);
+  }
 
 //Future<List<CalendarEvent<Event>>>
 // Function gets Events from the back end and returns the HTTP response.   Function also gets the User ID.
 Future<http.Response> fetchEvents(
     CalendarEventsController controller, String? UID) async {
-  String url = "http://127.0.0.1:8000/eventsdetails";
+  print("getting events"); 
+  var url = Uri(
+    scheme: 'http',
+    host: '127.0.0.1',
+    port: 8000,
+    path: 'eventsdetails',
+    queryParameters: {'UID' : '$UID'},
+  );
+  print(url); 
   http.Response response = await http.get(
-    Uri.parse(url),
+    url,
     headers: {
       'Authorization': '$UID',
     },
@@ -50,8 +71,14 @@ Future<http.Response> fetchEvents(
 Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID) {
   print("Posting!");
   print("UID: $UID");
+  var url = Uri(
+    scheme: 'http',
+    host: '127.0.0.1',
+    port: 8000,
+    path: 'eventsdetails',
+  );
   return http.post(
-    Uri.parse('http://127.0.0.1:8000/eventsdetails'),
+    url,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': '$UID',
@@ -69,8 +96,14 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID) {
 Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
   print("modifying!!");
   print("UID: $UID");
+  var url = Uri(
+    scheme: 'http',
+    host: '127.0.0.1',
+    port: 8000,
+    path: 'eventsdetails',
+  );
   return http.put(
-    Uri.parse('http://127.0.0.1:8000/eventsdetails'),
+    url,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': '$UID',
@@ -88,8 +121,14 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
 
 Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID) {
   print("deleting!");
+  var url = Uri(
+    scheme: 'http',
+    host: '127.0.0.1',
+    port: 8000,
+    path: 'eventsdetails',
+  );
   return http.delete(
-    Uri.parse('http://127.0.0.1:8000/eventsdetails'),
+    url,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': '$UID',
