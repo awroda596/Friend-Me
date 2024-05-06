@@ -16,6 +16,7 @@ jobs:
     - run: |
            flutter pub get
            flutter build web
+           flutter test
       working-directory: friend_me 
     
      
