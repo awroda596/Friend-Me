@@ -35,7 +35,7 @@ Future<http.Response> respondToMeetUp(String? UserResponse, String? UID. int id)
 }
 
 
-Future<http.Response> FetchMeetUps() async
+Future<http.Response> getMeetUps() async
 {
   final UID = await getUsername(); 
   var url = Uri(
@@ -43,7 +43,6 @@ Future<http.Response> FetchMeetUps() async
     host: '127.0.0.1',
     port: 8000,
     path: 'meetups', //placeholder url, replace with backend url. 
-    //queryParameters: {'UID' : '$UID'}, //own user id as query string.
   );
   http.Response response = await http.get(
     url,

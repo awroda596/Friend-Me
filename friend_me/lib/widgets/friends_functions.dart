@@ -7,7 +7,7 @@ import 'dart:convert';
 // http.get method to fetch users. 
 //querystring = { QueryType : QueryParam}.  leave these null if not using querystring. 
 // pass response to listFriends to get a list. 
-Future<http.Response> fetchUsers(String? UID, String? QueryType, String? QueryParam) async {
+Future<http.Response> getUsers(String? UID, String? QueryType, String? QueryParam) async {
   String? host = '127.0.0.1'; 
   int? port = 8000; 
   String? path = 'getusers'; //placeholder url, replace with backend url. 
@@ -71,7 +71,7 @@ List<User> listUsers(http.Response response){
 
 //method to add a friend using http.post.  pass the id (user table id, not actual uid) of the user you want to add)
 //can change the identifier from id to username/email/etc if needed. 
-Future<http.Response> addFriend(String? UID, int id) async{
+Future<http.Response> addFriend(String? UID, String? identifier) async{
   String? host = '127.0.0.1'; 
   int? port = 8000; 
   String path = 'addfriend'; //placeholder url, replace with backend url. 
@@ -88,9 +88,7 @@ Future<http.Response> addFriend(String? UID, int id) async{
       'Authorization': '$UID',
     },
     body: jsonEncode(<String, String>{
-      'UID': "$UID", //this user id
-      'id': "$id", // Table ID (primary key) of the user to add as friend (see users_customuser table); 
-      'action': "add", 
+      'target': "$identifier", //identifying variable of another user. (username/table id)
     }),
   );
   if (response.statusCode != 200 && response.statusCode != 201){
@@ -101,7 +99,7 @@ Future<http.Response> addFriend(String? UID, int id) async{
 
 //method to respond to a friend request from table profiles_friendrequest.  
 //take status and appropriately change the status of friend request in table. 
-Future<http.Response> respondFR(String? UID, int id, String? frResponse) async{
+Future<http.Response> respondFriendReqeusts(String? UID, int id, String? frResponse) async{
   String? host = '127.0.0.1'; 
   int? port = 8000; 
   String path = 'respondfr'; //placeholder url, replace with backend url. 
@@ -128,7 +126,7 @@ Future<http.Response> respondFR(String? UID, int id, String? frResponse) async{
   return response; 
 }
 
-Future<http.Response> fetchFR(String? UID) async {
+Future<http.Response> getFriendRequests(String? UID) async {
   String? host = '127.0.0.1'; 
   int? port = 8000; 
   String path = 'getfriends'; //placeholder url, replace with backend url. 
