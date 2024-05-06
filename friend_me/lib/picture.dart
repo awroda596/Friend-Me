@@ -9,18 +9,35 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Picture {
 
 
- final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final ImagePicker _imagePicker;
+ 
 
-   bool _background = false;
-   bool _profile = false;
+ // Private constructor in case imagepicker is passed
+  Picture._(this._imagePicker);
+
+    // Factory method with a default ImagePicker
+  factory Picture([ImagePicker? imagePicker]) {
+    return Picture._(imagePicker ?? ImagePicker());
+  }
+
+  bool _background = false;
+  bool _profile = false;
 
 
   Uint8List _webProfileImage = Uint8List(8);
   Uint8List _webBackgroundImage = Uint8List(8);
 
 
+  Future<XFile?> getImage() async{
+   
+    XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+
+
   Future<void> getPics() async {
-      String profilePic = await  _prefs.then((SharedPreferences prefs){
+    String profilePic = await  _prefs.then((SharedPreferences prefs){
       return (prefs.getString('profilePic') ?? 'NULL');
     });
     String backgroundPic = await  _prefs.then((SharedPreferences prefs){
@@ -44,14 +61,12 @@ class Picture {
 
 
   Future<void> getPhoto() async{
-    if(kIsWeb){
-      final SharedPreferences prefs = await _prefs;
-      bool success = false;
-      final ImagePicker picker = ImagePicker();
-      XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      XFile? image = await getImage();
       if (image != null){
+        final SharedPreferences prefs = await _prefs;
         var web = await image.readAsBytes();
         String base64Image = base64Encode(web);
+        bool success = false;
         success = await prefs.setString("profilePic", base64Image);
         if (!success){
             if (kDebugMode) {
@@ -64,19 +79,16 @@ class Picture {
           print("No image was selected");
         }
       }
-    }
   }
 
 
     Future<void>  getBackground() async{
-     if(kIsWeb){
-      final SharedPreferences prefs = await _prefs;
-      bool success = false;
-      final ImagePicker picker = ImagePicker();
-      XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      XFile? image = await getImage();
       if (image != null){
+        final SharedPreferences prefs = await _prefs;
         var web = await image.readAsBytes();
         String base64Image = base64Encode(web);
+        bool success = false;
         success = await prefs.setString("backgroundImage", base64Image);
         if (!success){
             if (kDebugMode) {
@@ -89,7 +101,7 @@ class Picture {
           print("No image was selected");
         }
       }
-    }
+    
 
   }
 

@@ -1,3 +1,5 @@
+[![Flutter Build Web](https://github.com/ChicoState/Friend-Me/actions/workflows/main.yml/badge.svg)](https://github.com/ChicoState/Friend-Me/actions/workflows/main.yml)
+
 # Friend Me
 Your Way to Connect with Friends!
 

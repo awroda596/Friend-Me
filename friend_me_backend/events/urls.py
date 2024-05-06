@@ -1,11 +1,9 @@
-from django.urls import path, include
-from rest_framework import routers
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from events import views
 
-router = routers.DefaultRouter(trailing_slash=False)
-router.register(r'eventsdetails', views.Event)
-
 urlpatterns = [
-    path('', include(router.urls)),
+    # custom URL patterns for direct view functions
+    path('eventsdetails/', views.eventsdetails, name='eventsdetails'),
+    path('eventsdetails_uid/<str:uid>/', views.events_by_uid, name='events_by_uid'),
+    path('eventsdetails_id/<int:pk>/', views.event_detail, name='event_detail'),
 ]
