@@ -9,7 +9,8 @@ from rest_framework import status
 @csrf_exempt
 def eventsdetails(request, format=None):
     if request.method == 'GET':
-        events = Event.objects.all()
+        userid = request.headers.get('Authorization')
+        events = Event.objects.filter(uid=userid)
         serializer = EventSerializer(events, many=True)
         return JsonResponse(serializer.data, safe=False)
     
