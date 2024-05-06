@@ -13,7 +13,6 @@ def eventsdetails(request, format=None):
         events = Event.objects.filter(uid=userid)
         serializer = EventSerializer(events, many=True)
         return JsonResponse(serializer.data, safe=False)
-    
     elif request.method == 'POST':
         rdata = json.loads(request.body)
         serializer = EventSerializer(data=rdata)
