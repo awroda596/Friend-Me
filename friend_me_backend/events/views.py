@@ -24,7 +24,7 @@ def eventsdetails(request, format=None):
 @csrf_exempt
 def events_by_uid(request, uid, format=None):
     try:
-        event = Event.objects.filter(uid=uid)
+        event = Event.objects.get(uid=uid)
     except Event.DoesNotExist:
         return JsonResponse({'error': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -48,7 +48,7 @@ def events_by_uid(request, uid, format=None):
 @csrf_exempt
 def event_detail(request, pk, format=None):
     try:
-        event = Event.objects.filter(pk=pk)
+        event = Event.objects.get(pk=pk)
     except Event.DoesNotExist:
         return JsonResponse({'error': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
 
