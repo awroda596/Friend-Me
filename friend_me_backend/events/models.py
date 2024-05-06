@@ -4,7 +4,7 @@ import uuid
 
 class Event(models.Model):
     id = models.AutoField(primary_key=True)
-    UID = models.CharField(max_length=100, null=True)
+    uid = models.CharField(max_length=100, null=True)
     title = models.CharField(max_length=50)
     description = models.TextField(null=True)
     start_time = models.DateTimeField()
