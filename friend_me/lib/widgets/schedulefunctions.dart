@@ -29,8 +29,8 @@ Future<http.Response> fetchEvents(
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails',
-    queryParameters: {'UID' : '$UID'},
+    path: 'eventsdetails_uid/$UID',
+    //queryParameters: {'UID' : '$UID'},
   );
   print(url); 
   http.Response response = await http.get(
@@ -84,7 +84,7 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID) {
       'Authorization': '$UID',
     },
     body: jsonEncode(<String, String>{
-      'UID': "$UID",
+      'uid': "$UID",
       'title': "${event.eventData?.title}",
       'start_time': "${event.dateTimeRange.start}",
       'end_time': "${event.dateTimeRange.end}",
@@ -100,7 +100,7 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails',
+    path: 'eventsdetails_id/${event.eventData?.id}',
   );
   return http.put(
     url,
@@ -110,7 +110,7 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
     },
     body: jsonEncode(<String, String>{
       'id': "${event.eventData?.id}",
-      'UID': "$UID",
+      'uid': "$UID",
       'title': "${event.eventData?.title}",
       'start_time': "${event.dateTimeRange.start}",
       'end_time': "${event.dateTimeRange.end}",
@@ -125,7 +125,7 @@ Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails',
+    path: 'eventsdetails_id/${event.eventData?.id}',
   );
   return http.delete(
     url,
