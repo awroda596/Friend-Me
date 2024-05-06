@@ -102,7 +102,7 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails_id/${event.eventData?.id}/',
+    path: 'eventsdetails/',
   );
   return http.put(
     url,
@@ -127,7 +127,7 @@ Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails_id/${event.eventData?.id}',
+    path: 'eventsdetails/',
   );
   return http.delete(
     url,
