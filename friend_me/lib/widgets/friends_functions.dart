@@ -37,9 +37,9 @@ Future<http.Response> fetchUsers(String? UID, String? QueryType, String? QueryPa
  return response;
 }
 
-//fetch all friends from backend using http get.
+//get all users that are friends from backend using http get.
 //pass response (if valid) to listFriends to get a list. 
-Future<http.Response> fetchFriends(String? UID) async {
+Future<http.Response> getFriends(String? UID) async {
   String? host = '127.0.0.1'; 
   int? port = 8000; 
   String path = 'getfriends'; //placeholder url, replace with backend url. 
@@ -48,7 +48,6 @@ Future<http.Response> fetchFriends(String? UID) async {
     host: host,
     port: port,
     path: path,
-    queryParameters: {'UID' : '$UID'}, //own user id as query string.
   );
 
   print(url); 
@@ -101,7 +100,8 @@ Future<http.Response> addFriend(String? UID, int id) async{
   return response; 
 }
 
-//method to respond to a friend request. 
+//method to respond to a friend request from table profiles_friendrequest.  
+//take status and appropriately change the status of friend request in table. 
 Future<http.Response> respondFR(String? UID, int id, String? frResponse) async{
   String? host = '127.0.0.1'; 
   int? port = 8000; 
@@ -112,16 +112,15 @@ Future<http.Response> respondFR(String? UID, int id, String? frResponse) async{
     port: port,
     path: path,
   );
-  http.Response response = await http.post(
+  http.Response response = await http.put(
     url,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': '$UID',
     },
     body: jsonEncode(<String, String>{
-      'UID': "$UID", //this user id
-      'id': "$id", // id of a friend request.  
-      'response': "$frResponse",
+      'id': "$id", //PK  id of a friend request.  
+      'status': "$frResponse",
     }),
   );
   if (response.statusCode != 200 && response.statusCode != 201){
@@ -161,17 +160,27 @@ List<friendRequest> ListMeetUps(http.Response response){
 
 //class to hold recieved/pendin friend requests.
 class friendRequest{
-  final int id; //table identifier for request
-  final String username; //name of requester
-  final String status;  
-  friendRequest({required this.id, required this.username, required this.status}); 
+  final int id; //table identifier for request\
+  final DateTime created_at;
+  final String status; 
+  final String from_user_id;
+  final String to_user_id; //redundant, we know it's to us, backend knows from the auth header
+
+  friendRequest({
+  required this.id, 
+  required this.created_at, 
+  required this.status,
+  required this.from_user_id,
+  required this.to_user_id,
+  }); 
 
   factory friendRequest.fromJson(Map<String, dynamic> json) {
     return friendRequest(
       id: json['id'] as int,
-      username: json['username'] as String,
+      created_at: DateTime.parse(json['created_at'].toString()),
       status: json['status'] as String,
-
+      from_user_id: json['from_user_id'] as String,
+      to_user_id: json['to_user_id'] as String, 
     );
   }
 }
