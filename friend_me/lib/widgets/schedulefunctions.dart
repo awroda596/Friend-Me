@@ -75,7 +75,7 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails/<int:pk>',
+    path: 'eventsdetails',
   );
   return http.post(
     url,
