@@ -18,6 +18,7 @@ Future<http.Response> fetchUsers(String? UID, String? QueryType, String? QueryPa
     host: host,
     port: port,
     path: path,
+    queryParameters: {'UID' : '$UID'}, //own user id as query string.
   );
   }
   else{
@@ -47,6 +48,7 @@ Future<http.Response> fetchFriends(String? UID) async {
     host: host,
     port: port,
     path: path,
+    queryParameters: {'UID' : '$UID'}, //own user id as query string.
   );
 
   print(url); 
@@ -65,8 +67,8 @@ Future<http.Response> fetchFriends(String? UID) async {
 //decode response from FetchFriends or FetchUsers to retrieve a list of Users
 List<User> listUsers(http.Response response){
   Iterable list = json.decode(response.body);
-  List<User> Friends =List<User>.from(list.map((model) => User.fromJson(model)));
-  return Friends;
+  List<User> Users =List<User>.from(list.map((model) => User.fromJson(model)));
+  return Users;
 }
 
 //method to add a friend using http.post.  pass the id (user table id, not actual uid) of the user you want to add)
@@ -126,6 +128,52 @@ Future<http.Response> respondFR(String? UID, int id, String? frResponse) async{
     return response; 
   }
   return response; 
+}
+
+Future<http.Response> fetchFR(String? UID) async {
+  String? host = '127.0.0.1'; 
+  int? port = 8000; 
+  String path = 'getfriends'; //placeholder url, replace with backend url. 
+  var url = Uri(
+    scheme: 'http',
+    host: host,
+    port: port,
+    path: path,
+    queryParameters: {'UID' : '$UID'}, //own user id as query string.
+  );
+  http.Response response = await http.get(
+    url,
+    headers: {
+      'Authorization': '$UID',
+    },
+  );
+  if (response.statusCode != 200){
+    return response; 
+  }
+ return response;
+}
+
+List<friendRequest> ListMeetUps(http.Response response){
+  Iterable list = json.decode(response.body);
+  List<friendRequest> friendRequests =List<friendRequest>.from(list.map((model) => friendRequest.fromJson(model)));
+  return friendRequests;
+}
+
+//class to hold recieved/pendin friend requests.
+class friendRequest{
+  final int id; //table identifier for request
+  final String username; //name of requester
+  final String status;  
+  friendRequest({required this.id, required this.username, required this.status}); 
+
+  factory friendRequest.fromJson(Map<String, dynamic> json) {
+    return friendRequest(
+      id: json['id'] as int,
+      username: json['username'] as String,
+      status: json['status'] as String,
+
+    );
+  }
 }
 
 //user class based on users_customuser table.  used for both friends list and user list when searching for friend. 
