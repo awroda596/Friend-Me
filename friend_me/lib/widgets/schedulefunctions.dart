@@ -30,7 +30,7 @@ Future<http.Response> fetchEvents(
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails_uid/$UID',
+    path: 'eventsdetails/',
     //queryParameters: {'UID' : '$UID'},
   );
   print(url);
@@ -63,6 +63,7 @@ Future<http.Response> fetchEvents(
         ),
         eventData: Event(
             title: timerange,
+            id: events[i].id,
             description: current.details,
             color: Colors.blue)));
   }
@@ -76,7 +77,7 @@ Future<http.Response> postEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails',
+    path: 'eventsdetails/',
   );
   return http.post(
     url,
@@ -101,7 +102,7 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails_id/${event.eventData?.id}',
+    path: 'eventsdetails/',
   );
   return http.put(
     url,
@@ -121,12 +122,12 @@ Future<http.Response> modifyEvent(CalendarEvent<Event> event, String? UID) {
 }
 
 Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID) {
-  print("deleting!");
+  print("deleting! ${event.eventData!.id}");
   var url = Uri(
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails_id/${event.eventData?.id}',
+    path: 'eventsdetails/',
   );
   return http.delete(
     url,
