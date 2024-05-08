@@ -101,7 +101,7 @@ class HomeRouteState extends State<HomeRoute> {
                                                                           .center,
                                                                   children: <Widget>[
                                                                     Text(
-                                                                        "future functionality"),
+                                                                        "placeholder"),
                                                                     Row(
                                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                                       children: <Widget>[
