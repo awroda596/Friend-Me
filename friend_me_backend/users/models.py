@@ -19,6 +19,8 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     # can add additional fields as needed
     objects = CustomUserManager()
+    id = models.AutoField(primary_key=True)
+    uid = models.CharField(max_length=100, null=True)
     email = models.EmailField(('email address'), unique=True, blank=False, error_messages={
         'unique': ("A user with that email already exists."),
     })
