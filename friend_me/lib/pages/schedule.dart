@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kalender/kalender.dart';
-import 'package:friend_me/widgets/schedulefunctions.dart'; 
+import 'package:friend_me/widgets/schedulefunctions.dart';
 import 'package:friend_me/widgets/event.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
@@ -63,7 +63,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
           backgroundColor: Colors.white,
           appBar: const NavBar(),
           // Future builder. waits for connection and Displays calendar on succcessful return from backend, otherwise shows error screen or loading circle appropriately
-          //FutureResults holds UID and initial response from http.get.  
+          //FutureResults holds UID and initial response from http.get.
           body: FutureBuilder<FutureResults>(
               future: getResults(calendar.eventsController),
               builder: (context, AsyncSnapshot snapshot) {
@@ -77,65 +77,63 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                         ),
                       ]));
                 }
-                if(snapshot.hasData && !snapshot.hasError){
-                  if (snapshot.hasData && snapshot.data.Response.statusCode != 200) {
-                  print("response: ${snapshot.data.Response.statusCode}");
-                  print("snapshot: ${snapshot.connectionState}");
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Text(
-                          'Could not connect to backend!',
-                        ),
-                        Text(
-                          'error code: ${snapshot.data.Response.statusCode}',
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {});
-                            },
-                            child: Text('Retry'))
-                      ],
-                    ),
-                  );
+                if (snapshot.hasData && !snapshot.hasError) {
+                  if (snapshot.hasData &&
+                      snapshot.data.Response.statusCode != 200) {
+                    print("response: ${snapshot.data.Response.statusCode}");
+                    print("snapshot: ${snapshot.connectionState}");
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Text(
+                            'Could not connect to backend!',
+                          ),
+                          Text(
+                            'error code: ${snapshot.data.Response.statusCode}',
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {});
+                              },
+                              child: Text('Retry'))
+                        ],
+                      ),
+                    );
+                  } else if (snapshot.hasData && snapshot.data.UID == null) {
+                    print("response: ${snapshot.data.UID}");
+                    print("snapshot: ${snapshot.connectionState}");
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Text(
+                            'could not retrive Username!',
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {});
+                              },
+                              child: Text('Retry'))
+                        ],
+                      ),
+                    );
+                  } else {
+                    print("response: ${snapshot.data.Response.statusCode}");
+                    print("snapshot: ${snapshot.connectionState}");
+                    UID = snapshot.data.UID;
+                    print("user ID : $UID");
+                    return calendar;
+                  }
                 }
-                else if (snapshot.hasData && snapshot.data.UID == null) {
-                  print("response: ${snapshot.data.UID}");
-                  print("snapshot: ${snapshot.connectionState}");
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Text(
-                          'could not retrive Username!',
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {});
-                            },
-                            child: Text('Retry'))
-                      ],
-                    ),
-                  );
-                }
-                else{
-                print("response: ${snapshot.data.Response.statusCode}");
-                print("snapshot: ${snapshot.connectionState}");
-                UID = snapshot.data.UID;
-                print("user ID : $UID");              
-                return calendar;
-                }
-                }                
                 return const Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                    CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                ]));
-
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                      CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                    ]));
               })),
     );
   }
@@ -151,7 +149,7 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   }
 
   Future<void> _onEventCreated(CalendarEvent<Event> event) async {
-    print("event created called\n"); 
+    print("event created called\n");
     String start = getTime(event.dateTimeRange.start);
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
@@ -161,18 +159,16 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     print("Response status code: ${response.statusCode}");
     if (response.statusCode == 201) {
       print("successful post!");
-      eventController.addEvent(event); //only add event to calendar if successfully sent to backend
+      eventController.addEvent(
+          event); //only add event to calendar if successfully sent to backend
       eventController.clearEvents(); //clear events from event controller
       response = await fetchEvents(eventController, UID); //refresh from backend
-      if(response.statusCode == 200){
-        print("refreshed events!"); 
+      if (response.statusCode == 200) {
+        print("refreshed events!");
+      } else {
+        print("fetch failed!!");
       }
-      else{
-        print("fetch failed!!"); 
-      }
-    }
-
-    else{
+    } else {
       // add pop up dialogue here if event fails to post
     }
 
@@ -183,15 +179,14 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   Future<void> _onEventTapped(
     CalendarEvent<Event> event,
   ) async {
-    print("Event tapped called");     
+    print("Event tapped called");
     var response = await deleteEvent(event, UID);
-    if (response.statusCode >= 200 && response.statusCode <= 205){
+    if (response.statusCode >= 200 && response.statusCode <= 205) {
       eventController.removeEvent(event);
+    } else {
+      eventController.clearEvents();
+      setState(() {});
     }
-    else{
-      eventController.clearEvents(); 
-      setState((){}); 
-    }    
     if (isMobile) {
       eventController.selectedEvent == event
           ? eventController.deselectEvent()
@@ -200,21 +195,37 @@ class _ScheduleRouteState extends State<ScheduleRoute>
   }
 
   Future<void> _onEventChanged(
+    //put workaround
     DateTimeRange initialDateTimeRange,
     CalendarEvent<Event> event,
   ) async {
-    print("event changed called"); 
+    print("event changed called");
     String start = getTime(event.dateTimeRange.start);
     String end = getTime(event.dateTimeRange.end);
     String timeRange = "$start - $end";
     event.eventData?.title = timeRange;
-    var response = await modifyEvent(event, UID);
-    if (response.statusCode >= 200 && response.statusCode <= 205){
-
+    var response = await deleteEvent(event, UID);
+    if (response.statusCode >= 200 && response.statusCode <= 205) {
+      eventController.removeEvent(event);
+    } else {
+      eventController.clearEvents();
+      setState(() {});
     }
-    else{
-      eventController.clearEvents(); 
-      setState((){}); 
+    response = await postEvent(event, UID);
+    print("Response status code: ${response.statusCode}");
+    if (response.statusCode == 201) {
+      print("successful post!");
+      eventController.addEvent(
+          event); //only add event to calendar if successfully sent to backend
+      eventController.clearEvents(); //clear events from event controller
+      response = await fetchEvents(eventController, UID); //refresh from backend
+      if (response.statusCode == 200) {
+        print("refreshed events!");
+      } else {
+        print("fetch failed!!");
+        eventController.clearEvents();
+        setState(() {});
+      }
     }
     if (isMobile) {
       eventController.deselectEvent();
@@ -272,11 +283,11 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     );
   }
 
-  // Controls the calendar header.  
+  // Controls the calendar header.
   Widget _calendarHeader(DateTimeRange dateTimeRange) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        //width constrraints.  will need to fine tune. 
+        //width constrraints.  will need to fine tune.
         final buttonWidth = constraints.maxWidth < 600 ? 120.0 : 250.0;
         final viewWidth = constraints.maxWidth < 600 ? 80.0 : 150.0;
         final padding = constraints.maxWidth < 600 ? 0.0 : 4.0;
@@ -316,7 +327,8 @@ class _ScheduleRouteState extends State<ScheduleRoute>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding( //page left button
+              Padding(
+                //page left button
                 padding: EdgeInsets.only(left: padding),
                 child: IconButton.filledTonal(
                   onPressed: () {
@@ -327,7 +339,8 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                 ),
               ),
               dateButton, //year - month and date picker
-              Padding( // page right butrton
+              Padding(
+                // page right butrton
                 padding: EdgeInsets.only(left: padding),
                 child: IconButton.filledTonal(
                   onPressed: () {
@@ -337,7 +350,8 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                   tooltip: 'Next Page',
                 ),
               ),
-              Padding( // move to current date
+              Padding(
+                // move to current date
                 padding: EdgeInsets.only(left: padding),
                 child: IconButton.filledTonal(
                   onPressed: () {
@@ -354,7 +368,8 @@ class _ScheduleRouteState extends State<ScheduleRoute>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(  //drop down menu for month vs week view
+                    Padding(
+                      //drop down menu for month vs week view
                       padding: EdgeInsets.symmetric(horizontal: padding),
                       child: DropdownMenu(
                         width: viewWidth,
@@ -391,7 +406,6 @@ class _ScheduleRouteState extends State<ScheduleRoute>
     return kIsWeb ? false : Platform.isAndroid || Platform.isIOS;
   }
   //gets values for future builder
-
 
   @override
   bool get wantKeepAlive => true;
