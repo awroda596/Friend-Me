@@ -18,10 +18,6 @@ class ProfileSettingRoute extends StatefulWidget {
 
 class ProfileSetting extends State<ProfileSettingRoute> {
   ProfileSetting();
- 
-
- // Uint8List _webProfileImage = Uint8List(8);
-  //Uint8List _webBackgroundImage = Uint8List(8);
 
   final TextEditingController _publicName = TextEditingController();
   final TextEditingController _profileBio = TextEditingController();
