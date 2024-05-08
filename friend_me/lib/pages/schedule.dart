@@ -62,35 +62,6 @@ class _ScheduleRouteState extends State<ScheduleRoute>
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: const NavBar(),
-          endDrawer: Drawer(
-            //remove/replace soon
-            child: ListView(
-              // Important: Remove any padding from the ListView.
-              padding: EdgeInsets.zero,
-              children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  child: Text('Drawer Header'),
-                ),
-                ListTile(
-                  title: const Text('Item 1'),
-                  onTap: () {
-                    // Update the state of the app.
-                    // ...
-                  },
-                ),
-                ListTile(
-                  title: const Text('Item 2'),
-                  onTap: () {
-                    // Update the state of the app.
-                    // ...
-                  },
-                ),
-              ],
-            ),
-          ),
           // Future builder. waits for connection and Displays calendar on succcessful return from backend, otherwise shows error screen or loading circle appropriately
           //FutureResults holds UID and initial response from http.get.  
           body: FutureBuilder<FutureResults>(
