@@ -10,16 +10,17 @@ class LandingPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
-          EdgeInsets:10
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            Container(
+              margin: const EdgeInsets.all(20.0),
+            child: Text(
                 'Welcome to Friend Me!',
                 style: Theme.of(context).textTheme.displaySmall,
             ),
-            Spacer(flex: 2),
+            ),
             Container(
+              margin: const EdgeInsets.all(5.5),
               height: 50,
               width: 250,
               decoration: BoxDecoration(
@@ -42,12 +43,11 @@ class LandingPage extends StatelessWidget {
                 onPressed: 
                   function1,
                 child: Text(
-                  'Login',
+                  'Register',
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
             ),
-            Spacer(flex: 3),
           ],
         ),
       ),
