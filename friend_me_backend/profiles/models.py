@@ -3,8 +3,7 @@ from django .conf import settings
 # Create your models here.
 
 class UserProfile(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, related_name = "profile")
+    id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, related_name = "profile", primary_key=True)
     uid = models.CharField(max_length=100, null=True)
     public_name = models.CharField(max_length=150, unique=True)
     private_name = models.CharField(max_length=150, blank=True, null=True)
