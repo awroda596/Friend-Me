@@ -172,6 +172,7 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
                                   } 
                                   else {
                                     return TextFormField(
+                                      maxLength: 25,
                                       controller: _publicName,
                                       decoration: const InputDecoration(
                                         fillColor: Colors.white,
@@ -216,6 +217,7 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
                                   } 
                                   else {
                                     return TextFormField(
+                                      maxLength: 25,
                                       controller: _privateName,
                                       decoration: const InputDecoration(
                                         fillColor: Colors.white,

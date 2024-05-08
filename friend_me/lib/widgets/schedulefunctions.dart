@@ -127,7 +127,7 @@ Future<http.Response> deleteEvent(CalendarEvent<Event> event, String? UID) {
     scheme: 'http',
     host: '127.0.0.1',
     port: 8000,
-    path: 'eventsdetails/',
+    path: 'eventsdetails',
   );
   return http.delete(
     url,
