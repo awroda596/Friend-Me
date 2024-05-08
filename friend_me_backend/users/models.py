@@ -26,6 +26,9 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     def __str__(self) -> str:
         return self.username
+    
+    class Meta:
+        db_table = "user"
 
     # def send_friend_request(self, to_user):
     #     if to_user != self and not FriendRequest.objects.filter(from_user=self, to_user=to_user).exists():
