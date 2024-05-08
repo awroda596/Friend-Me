@@ -8,17 +8,19 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              alignment: Alignment.topCenter,
               margin: const EdgeInsets.all(20.0),
             child: Text(
                 'Welcome to Friend Me!',
                 style: Theme.of(context).textTheme.displaySmall,
             ),
             ),
+            Spacer(flex: 100),
             Container(
               margin: const EdgeInsets.all(5.5),
               height: 50,
@@ -48,9 +50,9 @@ class LandingPage extends StatelessWidget {
                 ),
               ),
             ),
+            Spacer(flex: 1),
           ],
         ),
-      ),
     );
   }
 }
