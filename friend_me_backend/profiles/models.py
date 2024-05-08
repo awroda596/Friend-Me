@@ -3,13 +3,18 @@ from django .conf import settings
 # Create your models here.
 
 class UserProfile(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, related_name = "profile")
+    uid = models.CharField(max_length=100, null=True)
     public_name = models.CharField(max_length=150, unique=True)
     private_name = models.CharField(max_length=150, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     date_of_birth = models.DateField()
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     background_image = models.ImageField(upload_to='background_images/', blank=True, null=True)
+
+    class Meta:
+        db_table = "profile"
 
 class Friendship(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_friendships')
