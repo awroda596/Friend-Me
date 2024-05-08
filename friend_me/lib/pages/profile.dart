@@ -18,7 +18,19 @@ class Profile extends State<ProfileRoute>{
   Future<String> ?privateName;
   Future<String> ?publicName;
   Picture getPicture = Picture();
+
+  final _publicNameStyle = const TextStyle(
+      // defines text style
+      color: Colors.black,
+      fontSize: 35  
+  );  
+
   
+  final _privateNameStyle = const TextStyle(
+      // defines text style
+      color: Colors.black,
+      fontSize: 25  
+  );  
 
     @override
   void initState() {
@@ -44,7 +56,7 @@ class Profile extends State<ProfileRoute>{
         body: SingleChildScrollView(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             FutureBuilder<void>(
                 future: getPicture.getPics(),
@@ -129,33 +141,49 @@ class Profile extends State<ProfileRoute>{
                   }   // switch in builder
                 } 
               ),
-                FutureBuilder<String>(
-                  future: publicName,
-                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                        return const CircularProgressIndicator();
-                      case ConnectionState.active:
-                      case ConnectionState.done:
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return Text(
-                            '${snapshot.data}',
-                          );
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width/10,
+                      height: MediaQuery.of(context).size.height / 8,
+                    ),
+                    FutureBuilder<String>(
+                      future: publicName,
+                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                            case ConnectionState.waiting:
+                              return const CircularProgressIndicator();
+                            case ConnectionState.active:
+                            case ConnectionState.done:
+                            if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return Text(
+                                '${snapshot.data}', style: _publicNameStyle
+                            );
+                          }
                         }
-                   }
-                }),
+                      }
+                    )
+                ]
+              ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                 Container(
+                    width: MediaQuery.of(context).size.width / 20,
+                    height: 0,
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                     FutureBuilder<String>(
+                    
+                    FutureBuilder<String>(
                       future: privateName,
                       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                         switch (snapshot.connectionState) {
@@ -168,14 +196,18 @@ class Profile extends State<ProfileRoute>{
                               return Text('Error: ${snapshot.error}');
                             } else {
                               return Text(
-                              '${snapshot.data}',
+                              '${snapshot.data}', style: _privateNameStyle
                               );
                             }
                         }
                     }),
-                    const Text(
+                    Container(
+                      width: 0,
+                      height: MediaQuery.of(context).size.height / 15,
+                    ),
+                    const Text( /////////////////////////////////////
                       "About Me",
-                      style: TextStyle(fontSize: 20, color: Colors.black),
+                      style: TextStyle(fontSize: 25, color: Colors.black),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 4,
@@ -201,7 +233,7 @@ class Profile extends State<ProfileRoute>{
                     )
                   ],
                 ),
-                Container(
+                /*Container(
                     width: MediaQuery.of(context).size.width / 4,
                     height: MediaQuery.of(context).size.height / 4,
                     child: SingleChildScrollView(
@@ -247,10 +279,10 @@ class Profile extends State<ProfileRoute>{
                               ),
                             ),
                           ]),
-                    ))
+                    )) */
               ],
             ),
-            const Column(
+            /*const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -258,7 +290,7 @@ class Profile extends State<ProfileRoute>{
                     "This is for the schedule, To be worked on.",
                     style: TextStyle(fontSize: 30, color: Colors.black),
                   ),
-                ])
+                ])*/
           ],
         )));
   }
