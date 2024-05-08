@@ -3,7 +3,7 @@ import 'package:friend_me/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:friend_me/widgets/meetup_functions.dart';
 import 'package:friend_me/widgets/schedulefunctions.dart';
-import 'package:side_navigation/side_navigation.dart';
+
 
 class FriendsRoute extends StatefulWidget {
   FriendsRoute({super.key});
