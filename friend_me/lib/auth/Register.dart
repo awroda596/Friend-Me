@@ -1,5 +1,30 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:http/http.dart' as http;
+
+Future<String?> tryRegister(String mail, String pass) async {
+  print('$mail');
+  try {
+    final credential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: mail,
+      password: pass,
+    );
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      return 'The password provided is too weak.';
+    } else if (e.code == 'email-already-in-use') {
+      return 'The account already exists for that email.';
+    }
+  } catch (e) {
+    print(e);
+  }
+  print('success');
+  return "success!";
+}
+>>>>>>> Stashed changes
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -10,16 +35,53 @@ class Register extends StatefulWidget {
 //replace with streambuilder method in login
 class RegisterState extends State<Register> {
   RegisterState();
+<<<<<<< Updated upstream
+=======
+  String? uc = "";
+>>>>>>> Stashed changes
   final TextEditingController _publicName = TextEditingController();
   final TextEditingController _privateName = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
   @override
+<<<<<<< Updated upstream
+=======
+  void initState() {
+    super.initState();
+    _email.addListener(() {
+      final String email = _email.text;
+      _email.value = _email.value.copyWith(
+        text: email,
+        selection:
+            TextSelection(baseOffset: email.length, extentOffset: email.length),
+        composing: TextRange.empty,
+      );
+    });
+    _password.addListener(() {
+      final String pass = _password.text;
+      _password.value = _password.value.copyWith(
+        text: pass,
+        selection:
+            TextSelection(baseOffset: pass.length, extentOffset: pass.length),
+        composing: TextRange.empty,
+      );
+    });
+  }
+
+  @override
+>>>>>>> Stashed changes
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
+<<<<<<< Updated upstream
+=======
+          if (snapshot.hasData) {
+            Navigator.pop(context);
+            print("success");
+          }
+>>>>>>> Stashed changes
           return Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -68,6 +130,7 @@ class RegisterState extends State<Register> {
                         ),
                         SizedBox(height: 20),
                         ElevatedButton(
+<<<<<<< Updated upstream
                           onPressed: () {
                             var cred = FirebaseAuth.instance
                                 .createUserWithEmailAndPassword(
@@ -79,6 +142,35 @@ class RegisterState extends State<Register> {
                           },
                           child: Text('Register'),
                         ),
+=======
+                          onPressed: () async {
+                            print("pressed!");
+                            try {
+                              print("${_email.text}");
+                              final credential = await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                email: _email.text,
+                                password: _password.text,
+                              );
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'weak-password') {
+                                setState(() {
+                                  uc =  'The password provided is too weak.';
+                                });
+
+                              } else if (e.code == 'email-already-in-use') {
+                                setState((){
+                                uc = 'The account already exists for that email.';
+                              });}
+                            } catch (e) {
+                              print(e);
+                            }
+                            print('success');
+                          },
+                          child: Text('Register'),
+                        ),
+                        Text('$uc'),
+>>>>>>> Stashed changes
                       ],
                     ),
                   ),
