@@ -1,11 +1,16 @@
 Run from main directory of FriendMe
 
-Type Lines Name Complexity > DjangoComplex.txt
+echo Cyclomatic Complexity > DjangoComplex.txt
+echo Type Lines Name Complexity >> DjangoComplex.txt
 radon cc -s .\friend_me_backend\ >> DjangoComplex.txt
 
-Type Lines Name Complexity > DjangoMain.txt
+echo File Maintainability > DjangoMain.txt
 radon mi -s .\friend_me_backend\ >> DjangoMain.txt
 
-Type Lines Name Complexity > DjangoHal.txt
-radon mi -s .\friend_me_backend\ >> DjangoHal.txt
+echo Raw Stats > DjangoRaw.txt
+echo LOC(Total Lines of Code) LLOC(Logical Lines of Code) SLOC(Source lines of code) Comments Blank_Lines >> DjangoRaw.txt
+radon raw -s .\friend_me_backend\ >> DjangoRaw.txt
+
+echo Halstead complexity metrics > DjangoHal.txt
+radon hal .\friend_me_backend\ >> DjangoHal.txt
 
