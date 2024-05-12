@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:friend_me/pages/profileCreation.dart';
 Future<String?> tryRegister(String mail, String pass) async {
   print('$mail');
   try {
@@ -67,7 +67,7 @@ class RegisterState extends State<Register> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            Navigator.pop(context);
+            return ProfileCreationRoute(); 
             print("success");
           }
           return Center(
