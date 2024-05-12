@@ -1,0 +1,11 @@
+Run from main directory of FriendMe
+
+Type Lines Name Complexity > DjangoComplex.txt
+radon cc -s .\friend_me_backend\ >> DjangoComplex.txt
+
+Type Lines Name Complexity > DjangoMain.txt
+radon mi -s .\friend_me_backend\ >> DjangoMain.txt
+
+Type Lines Name Complexity > DjangoHal.txt
+radon mi -s .\friend_me_backend\ >> DjangoHal.txt
+
