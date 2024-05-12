@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-=======
 import 'package:http/http.dart' as http;
 
 Future<String?> tryRegister(String mail, String pass) async {
@@ -24,7 +22,6 @@ Future<String?> tryRegister(String mail, String pass) async {
   print('success');
   return "success!";
 }
->>>>>>> Stashed changes
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -35,18 +32,13 @@ class Register extends StatefulWidget {
 //replace with streambuilder method in login
 class RegisterState extends State<Register> {
   RegisterState();
-<<<<<<< Updated upstream
-=======
   String? uc = "";
->>>>>>> Stashed changes
   final TextEditingController _publicName = TextEditingController();
   final TextEditingController _privateName = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
   @override
-<<<<<<< Updated upstream
-=======
   void initState() {
     super.initState();
     _email.addListener(() {
@@ -70,18 +62,14 @@ class RegisterState extends State<Register> {
   }
 
   @override
->>>>>>> Stashed changes
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-<<<<<<< Updated upstream
-=======
           if (snapshot.hasData) {
             Navigator.pop(context);
             print("success");
           }
->>>>>>> Stashed changes
           return Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -130,47 +118,57 @@ class RegisterState extends State<Register> {
                         ),
                         SizedBox(height: 20),
                         ElevatedButton(
-<<<<<<< Updated upstream
-                          onPressed: () {
-                            var cred = FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                    email: _email.text,
-                                    password: _password.text);
-                            if (cred != null) {
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text('Register'),
-                        ),
-=======
                           onPressed: () async {
-                            print("pressed!");
-                            try {
-                              print("${_email.text}");
-                              final credential = await FirebaseAuth.instance
-                                  .createUserWithEmailAndPassword(
-                                email: _email.text,
-                                password: _password.text,
-                              );
-                            } on FirebaseAuthException catch (e) {
-                              if (e.code == 'weak-password') {
+                            if (_publicName.text.length == 0) {
+                              setState(() {
+                                uc = "Please enter a public_name!";
+                              });
+                            } else if (_privateName.text.length == 0) {
+                              setState(() {
+                                uc = "Please enter a private name";
+                              });
+                            }else if (_email.text.length == 0) {
+                              setState(() {
+                                uc = "Please enter an email!";
+                              });
+                            } else if (_password.text.length == 0) {
+                              setState(() {
+                                uc = "Please enter a password!";
+                              });
+                            }  
+                            else {
+                              try {
+                                final credential = await FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                  email: _email.text,
+                                  password: _password.text,
+                                );
+                              } on FirebaseAuthException catch (e) {
+                                if (e.code == 'weak-password') {
+                                  setState(() {
+                                    uc = 'The password provided is too weak.';
+                                  });
+                                } else if (e.code == 'email-already-in-use') {
+                                  setState(() {
+                                    uc =
+                                        'The account already exists for that email.';
+                                  });
+                                }
+                              } catch (e) {
                                 setState(() {
-                                  uc =  'The password provided is too weak.';
+                                  uc = '$e';
                                 });
-
-                              } else if (e.code == 'email-already-in-use') {
-                                setState((){
-                                uc = 'The account already exists for that email.';
-                              });}
-                            } catch (e) {
-                              print(e);
+                              }
                             }
-                            print('success');
                           },
-                          child: Text('Register'),
+                          child: Text(
+                            'Register',
+                          ),
                         ),
-                        Text('$uc'),
->>>>>>> Stashed changes
+                        Text(
+                            '$uc',
+                            style: TextStyle(color: Colors.red),
+                          ), 
                       ],
                     ),
                   ),

@@ -12,6 +12,7 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
+  String error = "";
   @override
   void initState() {}
 
@@ -63,24 +64,35 @@ class LoginState extends State<Login> {
                           ),
                           SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: ()async {
+                              if (_email.text.length == 0) {
+                              setState(() {
+                                error = "Please enter an email!";
+                              });
+                            } else if (_password.text.length == 0) {
+                              setState(() {
+                                error = "Please enter a password!";
+                              });
+                            }
                               try {
-                                final credential = FirebaseAuth.instance
+                                final credential = await FirebaseAuth.instance
                                     .signInWithEmailAndPassword(
                                   email: _email.text,
                                   password: _password.text,
                                 );
                               } on FirebaseAuthException catch (e) {
                                 if (e.code == 'user-not-found') {
-                                  print('No user found for that email.');
+                                  print('wrong password'); 
+                                  setState((){error = 'No user found for that email.';});
                                 } else if (e.code == 'wrong-password') {
-                                  print(
-                                      'Wrong password provided for that user.');
+                                  print('wrong password'); 
+                                  setState((){error =  'Wrong password provided for that user.';});
                                 }
                               }
                             },
-                            child: Text('Login'),
+                            child: Text('Login')                            
                           ),
+                          Text('$error', style: TextStyle(color: Colors.red),),
                         ],
                       ),
                     ),
