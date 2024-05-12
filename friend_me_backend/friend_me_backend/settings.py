@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #used for UML
+    'django_extensions',
     'users',
     'profiles',
     'events',
