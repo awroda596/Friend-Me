@@ -1,0 +1,530 @@
+Raw Stats 
+LOC(Total Lines of Code) LLOC(Logical Lines of Code) SLOC(Source lines of code) Comments Blank_Lines 
+friend_me_backend\manage.py
+    LOC: 22
+    LLOC: 13
+    SLOC: 15
+    Comments: 1
+    Single comments: 3
+    Multi: 0
+    Blank: 4
+    - Comment Stats
+        (C % L): 5%
+        (C % S): 7%
+        (C + M % L): 5%
+friend_me_backend\api\admin.py
+    LOC: 3
+    LLOC: 1
+    SLOC: 1
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 33%
+        (C % S): 100%
+        (C + M % L): 33%
+friend_me_backend\api\apps.py
+    LOC: 5
+    LLOC: 4
+    SLOC: 4
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\api\models.py
+    LOC: 3
+    LLOC: 1
+    SLOC: 1
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 33%
+        (C % S): 100%
+        (C + M % L): 33%
+friend_me_backend\api\tests.py
+    LOC: 3
+    LLOC: 1
+    SLOC: 1
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 33%
+        (C % S): 100%
+        (C + M % L): 33%
+friend_me_backend\api\urls.py
+    LOC: 0
+    LLOC: 0
+    SLOC: 0
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\api\views.py
+    LOC: 3
+    LLOC: 1
+    SLOC: 1
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 33%
+        (C % S): 100%
+        (C + M % L): 33%
+friend_me_backend\api\__init__.py
+    LOC: 0
+    LLOC: 0
+    SLOC: 0
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\events\admin.py
+    LOC: 5
+    LLOC: 3
+    SLOC: 3
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 20%
+        (C % S): 33%
+        (C + M % L): 20%
+friend_me_backend\events\apps.py
+    LOC: 4
+    LLOC: 4
+    SLOC: 4
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\events\models.py
+    LOC: 19
+    LLOC: 16
+    SLOC: 16
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 3
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\events\serializers.py
+    LOC: 18
+    LLOC: 6
+    SLOC: 15
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 3
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\events\tests.py
+    LOC: 3
+    LLOC: 1
+    SLOC: 1
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 33%
+        (C % S): 100%
+        (C + M % L): 33%
+friend_me_backend\events\urls.py
+    LOC: 6
+    LLOC: 3
+    SLOC: 5
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\events\views.py
+    LOC: 42
+    LLOC: 43
+    SLOC: 40
+    Comments: 2
+    Single comments: 2
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 5%
+        (C % S): 5%
+        (C + M % L): 5%
+friend_me_backend\events\__init__.py
+    LOC: 0
+    LLOC: 0
+    SLOC: 0
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\friend_me_backend\asgi.py
+    LOC: 16
+    LLOC: 5
+    SLOC: 4
+    Comments: 0
+    Single comments: 0
+    Multi: 6
+    Blank: 6
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 38%
+friend_me_backend\friend_me_backend\settings.py
+    LOC: 147
+    LLOC: 29
+    SLOC: 89
+    Comments: 18
+    Single comments: 16
+    Multi: 8
+    Blank: 34
+    - Comment Stats
+        (C % L): 12%
+        (C % S): 20%
+        (C + M % L): 18%
+friend_me_backend\friend_me_backend\urls.py
+    LOC: 13
+    LLOC: 5
+    SLOC: 10
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 3
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\friend_me_backend\wsgi.py
+    LOC: 16
+    LLOC: 5
+    SLOC: 4
+    Comments: 0
+    Single comments: 0
+    Multi: 6
+    Blank: 6
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 38%
+friend_me_backend\friend_me_backend\__init__.py
+    LOC: 0
+    LLOC: 0
+    SLOC: 0
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\profiles\admin.py
+    LOC: 5
+    LLOC: 3
+    SLOC: 3
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 20%
+        (C % S): 33%
+        (C + M % L): 20%
+friend_me_backend\profiles\apps.py
+    LOC: 6
+    LLOC: 4
+    SLOC: 4
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 2
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\profiles\models.py
+    LOC: 42
+    LLOC: 31
+    SLOC: 33
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 8
+    - Comment Stats
+        (C % L): 2%
+        (C % S): 3%
+        (C + M % L): 2%
+friend_me_backend\profiles\serializers.py
+    LOC: 7
+    LLOC: 6
+    SLOC: 6
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\profiles\tests.py
+    LOC: 75
+    LLOC: 54
+    SLOC: 57
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 18
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\profiles\urls.py
+    LOC: 12
+    LLOC: 7
+    SLOC: 10
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 2
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\profiles\views.py
+    LOC: 57
+    LLOC: 56
+    SLOC: 52
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 4
+    - Comment Stats
+        (C % L): 2%
+        (C % S): 2%
+        (C + M % L): 2%
+friend_me_backend\profiles\__init__.py
+    LOC: 0
+    LLOC: 0
+    SLOC: 0
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\schedules\admin.py
+    LOC: 5
+    LLOC: 3
+    SLOC: 3
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 20%
+        (C % S): 33%
+        (C + M % L): 20%
+friend_me_backend\schedules\apps.py
+    LOC: 6
+    LLOC: 4
+    SLOC: 4
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 2
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\schedules\models.py
+    LOC: 9
+    LLOC: 6
+    SLOC: 6
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 2
+    - Comment Stats
+        (C % L): 11%
+        (C % S): 17%
+        (C + M % L): 11%
+friend_me_backend\schedules\tests.py
+    LOC: 3
+    LLOC: 1
+    SLOC: 1
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 33%
+        (C % S): 100%
+        (C + M % L): 33%
+friend_me_backend\schedules\views.py
+    LOC: 3
+    LLOC: 1
+    SLOC: 1
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 33%
+        (C % S): 100%
+        (C + M % L): 33%
+friend_me_backend\schedules\__init__.py
+    LOC: 0
+    LLOC: 0
+    SLOC: 0
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\users\admin.py
+    LOC: 4
+    LLOC: 3
+    SLOC: 3
+    Comments: 1
+    Single comments: 1
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 25%
+        (C % S): 33%
+        (C + M % L): 25%
+friend_me_backend\users\apps.py
+    LOC: 6
+    LLOC: 4
+    SLOC: 4
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 2
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\users\models.py
+    LOC: 59
+    LLOC: 25
+    SLOC: 26
+    Comments: 22
+    Single comments: 22
+    Multi: 0
+    Blank: 11
+    - Comment Stats
+        (C % L): 37%
+        (C % S): 85%
+        (C + M % L): 37%
+friend_me_backend\users\serializers.py
+    LOC: 21
+    LLOC: 16
+    SLOC: 17
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 4
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\users\tests.py
+    LOC: 50
+    LLOC: 39
+    SLOC: 43
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 7
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\users\urls.py
+    LOC: 9
+    LLOC: 4
+    SLOC: 8
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 1
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\users\views.py
+    LOC: 63
+    LLOC: 67
+    SLOC: 61
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 2
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+friend_me_backend\users\__init__.py
+    LOC: 0
+    LLOC: 0
+    SLOC: 0
+    Comments: 0
+    Single comments: 0
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 0%
+        (C % S): 0%
+        (C + M % L): 0%
+** Total **
+    LOC: 770
+    LLOC: 475
+    SLOC: 556
+    Comments: 57
+    Single comments: 57
+    Multi: 20
+    Blank: 137
+    - Comment Stats
+        (C % L): 7%
+        (C % S): 10%
+        (C + M % L): 10%

@@ -1,0 +1,16 @@
+Run from main directory of FriendMe
+
+echo Cyclomatic Complexity > DjangoComplex.txt
+echo Type Lines Name Complexity >> DjangoComplex.txt
+radon cc -s -e "migrate" .\friend_me_backend\ >> DjangoComplex.txt
+
+echo File Maintainability > DjangoMain.txt
+radon mi -s -e "migrate" .\friend_me_backend\ >> DjangoMain.txt
+
+echo Raw Stats > DjangoRaw.txt
+echo LOC(Total Lines of Code) LLOC(Logical Lines of Code) SLOC(Source lines of code) Comments Blank_Lines >> DjangoRaw.txt
+radon raw -s -e "migrate" .\friend_me_backend\ >> DjangoRaw.txt
+
+echo Halstead complexity metrics > DjangoHal.txt
+radon hal -e "migrate" .\friend_me_backend\ >> DjangoHal.txt
+

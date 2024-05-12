@@ -1,0 +1,274 @@
+@startuml
+left to right direction
+scale 1.5
+class MyApp {
+---
+build(): Widget
+}
+StatelessWidget <|-- MyApp
+class AuthGate {
+---
+build(): Widget
+}
+StatelessWidget <|-- AuthGate
+class DefaultFirebaseOptions {
+web: FirebaseOptions
+android: FirebaseOptions
+ios: FirebaseOptions
+macos: FirebaseOptions
+---
+currentPlatform(): FirebaseOptions
+}
+DefaultFirebaseOptions ..> FirebaseOptions
+class FriendsRoute {
+---
+createState(): State<FriendsRoute>
+}
+StatefulWidget <|-- FriendsRoute
+class FriendsRouteState {
+offline: bool
+Friends: List<User>
+Users: List<User>
+fReqeusts: List<friendRequest>
+uid: String?
+---
+initState(): void
+build(): Widget
+}
+State <|-- FriendsRouteState
+class HomeRoute {
+---
+createState(): State<HomeRoute>
+}
+StatefulWidget <|-- HomeRoute
+class HomeRouteState {
+offline: bool
+meetUps: List<MeetUp>
+uid: String?
+months: List<String>
+---
+build(): Widget
+}
+State <|-- HomeRouteState
+class ProfileRoute {
+---
+createState(): State<ProfileRoute>
+}
+StatefulWidget <|-- ProfileRoute
+class Profile {
+-_prefs: Future<SharedPreferences>
+profileBio: Future<String>?
+privateName: Future<String>?
+publicName: Future<String>?
+getPicture: Picture
+-_publicNameStyle: null
+-_privateNameStyle: null
+---
+initState(): void
+build(): Widget
+}
+State <|-- Profile
+Profile ..> Future
+Profile ..> Picture
+class ProfileCreationRoute {
+---
+createState(): State<ProfileCreationRoute>
+}
+StatefulWidget <|-- ProfileCreationRoute
+class ProfileCreation {
+textSize: int
+-_privateName: TextEditingController
+-_publicName: TextEditingController
+-_profileBio: TextEditingController
+textstyle: null
+aboutTextStyle: null
+privateNameStyle: null
+-_prefs: Future<SharedPreferences>
+profileBio: Future<String>?
+privateName: Future<String>?
+publicName: Future<String>?
+getpicture: Picture
+---
+initState(): void
+-_getPrivateName(): Future<void>
+-_getPublicName(): Future<void>
+-_getProfileBio(): Future<void>
+-_getPhoto(): Future<void>
+-_getBackground(): Future<void>
+save(): void
+build(): Widget
+}
+State <|-- ProfileCreation
+ProfileCreation ..> TextEditingController
+ProfileCreation ..> Future
+ProfileCreation ..> Picture
+class ScheduleRoute {
+---
+createState(): State<ScheduleRoute>
+}
+StatefulWidget <|-- ScheduleRoute
+class _ScheduleRouteState {
+UID: String?
+controller: CalendarController<Event>
+eventController: CalendarEventsController<Event>
+currentConfiguration: ViewConfiguration
+viewConfigurations: List<ViewConfiguration>
+---
+initState(): void
+build(): Widget
+-_onCreateEvent(): CalendarEvent<Event>
+-_onEventCreated(): Future<void>
+-_onEventTapped(): Future<void>
+-_onEventChanged(): Future<void>
+-_tileBuilder(): Widget
+-_multiDayTileBuilder(): Widget
+-_scheduleTileBuilder(): Widget
+-_calendarHeader(): Widget
+isMobile(): bool
+wantKeepAlive(): bool
+}
+State <|-- _ScheduleRouteState
+_ScheduleRouteState ..> CalendarController
+_ScheduleRouteState ..> CalendarEventsController
+_ScheduleRouteState ..> ViewConfiguration
+class SettingsRoute {
+---
+build(): Widget
+}
+StatelessWidget <|-- SettingsRoute
+class Picture {
+-_prefs: Future<SharedPreferences>
+-_imagePicker: ImagePicker
+-_background: bool
+-_profile: bool
+-_webProfileImage: Uint8List
+-_webBackgroundImage: Uint8List
+---
+getImage(): Future<XFile?>
+getPics(): Future<void>
+getPhoto(): Future<void>
+getBackground(): Future<void>
+getProfilePhoto(): Uint8List
+getProfileBackground(): Uint8List
+checkPhoto(): bool
+checkBackground(): bool
+}
+Picture ..> Future
+Picture ..> ImagePicker
+Picture ..> Uint8List
+class Event {
+title: String?
+id: int?
+description: String?
+color: Color?
+---
+}
+Event ..> Color
+class fFutureResults {
+Response: http.Response
+uid: String?
+---
+}
+fFutureResults ..> http.Response
+class friendRequest {
+id: int
+created_at: DateTime
+status: String
+from_user_id: String
+to_user_id: String
+---
+}
+friendRequest ..> DateTime
+class User {
+id: int
+username: String
+first_name: String
+last_name: String
+email: String
+---
+}
+class mFutureResults {
+Response: http.Response
+uid: String?
+---
+}
+mFutureResults ..> http.Response
+class MeetUp {
+id: int
+friend_user: String
+status: String
+start_time: DateTime
+end_time: DateTime
+---
+}
+MeetUp ..> DateTime
+class NavBar {
+textstyle: null
+---
+build(): Widget
+preferredSize(): Size
+}
+StatelessWidget <|-- NavBar
+NavBar ..|> PreferredSizeWidget
+class ProfileSettingRoute {
+---
+createState(): State<ProfileSettingRoute>
+}
+StatefulWidget <|-- ProfileSettingRoute
+class ProfileSetting {
+-_publicName: TextEditingController
+-_profileBio: TextEditingController
+getpicture: Picture
+textstyle: null
+aboutTextStyle: null
+privateNameStyle: null
+-_prefs: Future<SharedPreferences>
+profileBio: Future<String>?
+privateName: Future<String>?
+publicName: Future<String>?
+---
+initState(): void
+-_getPublicName(): Future<void>
+-_getProfileBio(): Future<void>
+-_getPhoto(): Future<void>
+-_getBackground(): Future<void>
+save(): void
+-_showBackDialog(): void
+build(): Widget
+}
+State <|-- ProfileSetting
+ProfileSetting ..> TextEditingController
+ProfileSetting ..> Picture
+ProfileSetting ..> Future
+class FutureResults {
+Response: http.Response
+UID: String?
+---
+}
+FutureResults ..> http.Response
+class HTTPEvent {
+id: int
+details: String
+start_time: String
+end_time: String
+---
+toJson(): Map<String, dynamic>
+}
+class _FakeLostDataResponse_0 {
+---
+}
+SmartFake <|-- _FakeLostDataResponse_0
+_FakeLostDataResponse_0 ..|> LostDataResponse
+class MockImagePicker {
+---
+pickImage(): _i4.Future<_i2.XFile?>
+pickMultiImage(): _i4.Future<List<_i2.XFile>>
+pickMedia(): _i4.Future<_i2.XFile?>
+pickMultipleMedia(): _i4.Future<List<_i2.XFile>>
+pickVideo(): _i4.Future<_i2.XFile?>
+retrieveLostData(): _i4.Future<_i2.LostDataResponse>
+supportsImageSource(): bool
+}
+Mock <|-- MockImagePicker
+MockImagePicker ..|> ImagePicker
+@enduml
