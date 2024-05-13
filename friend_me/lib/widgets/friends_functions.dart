@@ -178,7 +178,7 @@ Future<http.Response> addFriend(String? UID, String? identifier) async {
 
 //method to respond to a friend request from table profiles_friendrequest.
 //take status and appropriately change the status of friend request in table.
-Future<http.Response> respondFriendReqeusts(
+Future<http.Response> respondFriendRequests(
     String? UID, int id, String? frResponse) async {
   String? host = '127.0.0.1';
   int? port = 8000;
