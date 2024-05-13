@@ -146,7 +146,7 @@ class FriendsRouteState extends State<FriendsRoute> {
                                             const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 3,
                                         ),
-                                        itemCount: Friends.length,
+                                        itemCount: Users.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           print("getting"); 
