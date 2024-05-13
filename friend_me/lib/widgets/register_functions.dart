@@ -1,10 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
 
 
-Future<http.Response> getUsers(String? uid) async {
+Future<http.Response> rGetUsers() async {
+  String?uid = FirebaseAuth.instance.currentUser?.uid; 
   var url = Uri(
     scheme: 'http',
     host: '127.0.0.1',
@@ -48,7 +50,7 @@ Future<http.Response> postUser(friendme_user user, String? uid) {
   );
 }
 
-List<friendme_user> listUsers(http.Response response) {
+List<friendme_user> rListUsers(http.Response response) {
   Iterable list = json.decode(response.body);
   List<friendme_user> users =
       List<friendme_user>.from(list.map((model) => friendme_user.fromJson(model)));

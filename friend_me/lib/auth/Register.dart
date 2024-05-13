@@ -186,21 +186,6 @@ class RegisterState extends State<Register> {
                             'Register',
                           ),
                         ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            friendme_user newUser = friendme_user(
-                                id: 0,
-                                uid: "asdfas",
-                                username: _publicName.text,
-                                email: _email.text,
-                                first_name: _firstName.text,
-                                last_name: _lastName.text);
-                            postUser(newUser, "asdfas");
-                          },
-                          child: Text(
-                            'test post',
-                          ),
-                        ),
                         Text(
                           '$uc',
                           style: TextStyle(color: Colors.red),
