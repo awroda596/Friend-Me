@@ -103,7 +103,7 @@ class HomeRouteState extends State<HomeRoute> {
                                                                             .center,
                                                                     children: <Widget>[
                                                                       Text(
-                                                                          "placeholder"),
+                                                                          "meetup details"),
                                                                       Row(
                                                                         mainAxisAlignment:
                                                                             MainAxisAlignment.center,
@@ -136,7 +136,7 @@ class HomeRouteState extends State<HomeRoute> {
                                                                       )
                                                                     ],
                                                                   )))),
-                                                      child: const Text("button"))
+                                                      child: const Text("Meetup!"))
                                                 ])))));
                           },
                         ))
