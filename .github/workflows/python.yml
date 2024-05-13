@@ -22,7 +22,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Change Directory
-      run: cd friend_me_backend
+      run: |
+        cd friend_me_backend
+        ls
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
