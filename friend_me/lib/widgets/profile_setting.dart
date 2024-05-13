@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:friend_me/pages/profile.dart';
 import 'package:friend_me/widgets/navbar.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:friend_me/picture.dart';
 
@@ -38,15 +34,14 @@ class ProfileSetting extends State<ProfileSettingRoute> {
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<String>? profileBio;
-  Future<String>? privateName;
   Future<String>? publicName;
 
   @override
   void initState() {
     super.initState();
   }
-  Future<void> _getPrivateName() async {
-    privateName = _prefs.then((SharedPreferences prefs) {
+  Future<String> _getPrivateName() async {
+    return _prefs.then((SharedPreferences prefs) {
       // might change to its own function to better understand
       return prefs.getString('privateName') ?? "John Doe";
     });
@@ -271,7 +266,7 @@ class ProfileSetting extends State<ProfileSettingRoute> {
                     ),
                   ]),
               FutureBuilder<String>(
-                  future: privateName,
+                  future: _getPrivateName(),
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     switch (snapshot.connectionState) {
