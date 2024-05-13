@@ -77,6 +77,7 @@ class friendme_user {
   });
 
   factory friendme_user.fromJson(Map<String, dynamic> json) {
+    print(json["username"]as String); 
     return friendme_user(
       id: json['id'] as int,
       uid: json['uid'] as String,

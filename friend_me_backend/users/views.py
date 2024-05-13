@@ -32,7 +32,7 @@ class LoginView(views.APIView):
 def usersdetails(request, format=None):
     if request.method == 'GET':
         userid = request.headers.get('Authorization')
-        users = CustomUser.objects.filter(uid=userid)
+        users = CustomUser.objects
         serializer = UserSerializer(users, many=True)
         return JsonResponse(serializer.data, safe=False)
     elif request.method == 'POST':
