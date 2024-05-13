@@ -4,6 +4,7 @@ import 'package:friend_me/pages/settings.dart';
 import '../pages/schedule.dart'; // Alternate way of things
 import 'package:friend_me/pages/profile.dart';
 import 'package:friend_me/pages/friends.dart';
+
 // Class for the nav bar
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
   const NavBar({super.key});
@@ -70,7 +71,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                       ProfileRoute(), // temp until home page is seperate
+                                      ProfileRoute(), // temp until home page is seperate
                                 ));
                           },
                           child: Text("Profile", style: textstyle)),
@@ -91,19 +92,22 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                       // Friends button
                       OutlinedButton(
                           style: outlineButtonStyle,
-                          onPressed: () {Navigator.pop; // pops currnet page
+                          onPressed: () {
+                            Navigator.pop; // pops currnet page
                             Navigator.push(
                                 // push new page
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       FriendsRoute(), // temp until home page is seperate
-                                ));},
+                                ));
+                          },
                           child: Text("Friends", style: textstyle)),
                       // Settings button
                       OutlinedButton(
                           style: outlineButtonStyle,
-                          onPressed: () {Navigator.pop; // pops currnet page
+                          onPressed: () {
+                            Navigator.pop; // pops currnet page
                             Navigator.push(
                                 // push new page
                                 context,
