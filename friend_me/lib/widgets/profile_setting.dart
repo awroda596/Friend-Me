@@ -44,7 +44,8 @@ class ProfileSetting extends State<ProfileSettingRoute> {
   @override
   void initState() {
     super.initState();
-    Future<void> _getPrivateName() async { 
+  }
+  Future<void> _getPrivateName() async {
     privateName = _prefs.then((SharedPreferences prefs) {
       // might change to its own function to better understand
       return prefs.getString('privateName') ?? "John Doe";
