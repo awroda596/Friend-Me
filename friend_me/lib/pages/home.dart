@@ -103,7 +103,7 @@ class HomeRouteState extends State<HomeRoute> {
                                                                             .center,
                                                                     children: <Widget>[
                                                                       Text(
-                                                                          "placeholder"),
+                                                                          "Let's make something happen!"),
                                                                       Row(
                                                                         mainAxisAlignment:
                                                                             MainAxisAlignment.center,
@@ -114,7 +114,7 @@ class HomeRouteState extends State<HomeRoute> {
                                                                               Navigator.pop(context);
                                                                             },
                                                                             child:
-                                                                                const Text('Accept'),
+                                                                                const Text('Add Friend'),
                                                                           ),
                                                                           TextButton(
                                                                             onPressed:
@@ -122,7 +122,7 @@ class HomeRouteState extends State<HomeRoute> {
                                                                               Navigator.pop(context);
                                                                             },
                                                                             child:
-                                                                                const Text('Decline'),
+                                                                                const Text('Hangout'),
                                                                           ),
                                                                           TextButton(
                                                                             onPressed:
@@ -136,7 +136,7 @@ class HomeRouteState extends State<HomeRoute> {
                                                                       )
                                                                     ],
                                                                   )))),
-                                                      child: const Text("button"))
+                                                      child: const Text("Checkoutt!"))
                                                 ])))));
                           },
                         ))
