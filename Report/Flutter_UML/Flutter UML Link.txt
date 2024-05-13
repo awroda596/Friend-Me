@@ -1,0 +1,2 @@
+https://simpleit.rocks/python/django/generate-uml-class-diagrams-from-django-models/
+https://pub.dev/packages/code_uml

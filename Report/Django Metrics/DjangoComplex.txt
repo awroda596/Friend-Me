@@ -1,0 +1,73 @@
+Cyclomatic Complexity 
+Type Lines Name Complexity 
+friend_me_backend\manage.py
+    F 7:0 main - A (2)
+friend_me_backend\api\apps.py
+    C 3:0 ApiConfig - A (1)
+friend_me_backend\events\apps.py
+    C 2:0 EventsConfig - A (1)
+friend_me_backend\events\models.py
+    C 5:0 Event - A (2)
+    M 15:4 Event.__str__ - A (1)
+friend_me_backend\events\serializers.py
+    C 6:0 EventSerializer - A (1)
+friend_me_backend\events\views.py
+    F 11:0 eventsdetails - B (9)
+friend_me_backend\profiles\apps.py
+    C 4:0 ProfilesConfig - A (1)
+friend_me_backend\profiles\models.py
+    C 18:0 Friendship - A (2)
+    C 31:0 FriendRequest - A (2)
+    C 5:0 UserProfile - A (1)
+    M 28:4 Friendship.__str__ - A (1)
+    M 41:4 FriendRequest.__str__ - A (1)
+friend_me_backend\profiles\serializers.py
+    C 4:0 UserProfileSerializer - A (1)
+friend_me_backend\profiles\tests.py
+    C 13:0 ModelsTestCase - A (2)
+    C 39:0 SocialNetworkTests - A (2)
+    M 14:4 ModelsTestCase.setUp - A (1)
+    M 18:4 ModelsTestCase.test_user_profile_creation - A (1)
+    M 26:4 ModelsTestCase.test_friendship_constraints - A (1)
+    M 31:4 ModelsTestCase.test_friend_request_status - A (1)
+    M 40:4 SocialNetworkTests.setUp - A (1)
+    M 46:4 SocialNetworkTests.test_profile_creation - A (1)
+    M 49:4 SocialNetworkTests.test_create_friendship - A (1)
+    M 54:4 SocialNetworkTests.test_unique_friendship - A (1)
+    M 59:4 SocialNetworkTests.test_friend_request_creation - A (1)
+    M 64:4 SocialNetworkTests.test_update_friend_request_status - A (1)
+    M 71:4 SocialNetworkTests.test_prevent_duplicate_requests - A (1)
+friend_me_backend\profiles\views.py
+    F 26:0 profilesdetails - B (9)
+    C 10:0 IsOwnerOrAdmin - A (4)
+    M 12:4 IsOwnerOrAdmin.has_object_permission - A (3)
+    C 17:0 UserProfileViewSet - A (2)
+    M 22:4 UserProfileViewSet.perform_create - A (1)
+friend_me_backend\schedules\apps.py
+    C 4:0 SchedulesConfig - A (1)
+friend_me_backend\schedules\models.py
+    C 7:0 UserSchedule - A (1)
+friend_me_backend\users\apps.py
+    C 4:0 UsersConfig - A (1)
+friend_me_backend\users\models.py
+    C 7:0 CustomUserManager - A (3)
+    M 8:4 CustomUserManager.create_user - A (2)
+    C 19:0 CustomUser - A (2)
+    M 29:4 CustomUser.__str__ - A (1)
+friend_me_backend\users\serializers.py
+    C 5:0 UserSerializer - A (2)
+    M 11:4 UserSerializer.create - A (1)
+friend_me_backend\users\tests.py
+    C 11:0 UserAccountTests - A (2)
+    M 12:4 UserAccountTests.setUp - A (1)
+    M 24:4 UserAccountTests.test_user_registration - A (1)
+    M 29:4 UserAccountTests.test_user_login - A (1)
+    M 35:4 UserAccountTests.test_user_serializer - A (1)
+    M 41:4 UserAccountTests.test_create_user_with_invalid_email - A (1)
+    M 47:4 UserAccountTests.test_duplicate_email - A (1)
+friend_me_backend\users\views.py
+    F 32:0 usersdetails - B (9)
+    C 11:0 SignupView - A (3)
+    C 19:0 LoginView - A (3)
+    M 12:4 SignupView.post - A (2)
+    M 20:4 LoginView.post - A (2)
