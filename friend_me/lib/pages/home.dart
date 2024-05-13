@@ -136,7 +136,7 @@ class HomeRouteState extends State<HomeRoute> {
                                                                       )
                                                                     ],
                                                                   )))),
-                                                      child: const Text("Checkoutt!"))
+                                                      child: const Text("Checkout!"))
                                                 ])))));
                           },
                         ))
