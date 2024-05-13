@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:friend_me/pages/profileCreation.dart';
+import 'package:friend_me/widgets/register_functions.dart';
+
 Future<String?> tryRegister(String mail, String pass) async {
   print('$mail');
   try {
@@ -34,7 +36,8 @@ class RegisterState extends State<Register> {
   RegisterState();
   String? uc = "";
   final TextEditingController _publicName = TextEditingController();
-  final TextEditingController _privateName = TextEditingController();
+  final TextEditingController _firstName = TextEditingController();
+  final TextEditingController _lastName = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
@@ -67,8 +70,19 @@ class RegisterState extends State<Register> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ProfileCreationRoute(); 
-            print("success");
+            String? uid = FirebaseAuth.instance.currentUser?.uid;
+            if (uid == null) {
+              print("uid null");
+            }
+            friendme_user newUser = friendme_user(
+                id: 0,
+                uid: uid,
+                username: _publicName.text,
+                email: _email.text,
+                first_name: _firstName.text,
+                last_name: _lastName.text);
+            postUser(newUser, uid);
+            return ProfileCreationRoute();
           }
           return Center(
               child: Column(
@@ -97,13 +111,17 @@ class RegisterState extends State<Register> {
                       children: <Widget>[
                         TextField(
                           controller: _publicName,
-                          decoration: InputDecoration(labelText: 'Public Name'),
+                          decoration:
+                              InputDecoration(labelText: 'Public Username'),
                         ),
                         SizedBox(height: 10),
                         TextField(
-                          controller: _privateName,
-                          decoration:
-                              InputDecoration(labelText: 'Private Name'),
+                          controller: _firstName,
+                          decoration: InputDecoration(labelText: 'First Name'),
+                        ),
+                        TextField(
+                          controller: _lastName,
+                          decoration: InputDecoration(labelText: 'Last Name'),
                         ),
                         SizedBox(height: 10),
                         TextField(
@@ -119,24 +137,27 @@ class RegisterState extends State<Register> {
                         SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () async {
-                            if (_publicName.text.length == 0) {
+                            if (_publicName.text.isEmpty) {
                               setState(() {
-                                uc = "Please enter a public_name!";
+                                uc = "Please enter a public username!";
                               });
-                            } else if (_privateName.text.length == 0) {
+                            } else if (_firstName.text.isEmpty) {
                               setState(() {
-                                uc = "Please enter a private name";
+                                uc = "Please enter your first name!";
                               });
-                            }else if (_email.text.length == 0) {
+                            } else if (_lastName.text.isEmpty) {
+                              setState(() {
+                                uc = "Please enter your last name!";
+                              });
+                            } else if (_email.text.isEmpty) {
                               setState(() {
                                 uc = "Please enter an email!";
                               });
-                            } else if (_password.text.length == 0) {
+                            } else if (_password.text.isEmpty) {
                               setState(() {
                                 uc = "Please enter a password!";
                               });
-                            }  
-                            else {
+                            } else {
                               try {
                                 final credential = await FirebaseAuth.instance
                                     .createUserWithEmailAndPassword(
@@ -165,10 +186,25 @@ class RegisterState extends State<Register> {
                             'Register',
                           ),
                         ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            friendme_user newUser = friendme_user(
+                                id: 0,
+                                uid: "asdfas",
+                                username: _publicName.text,
+                                email: _email.text,
+                                first_name: _firstName.text,
+                                last_name: _lastName.text);
+                            postUser(newUser, "asdfas");
+                          },
+                          child: Text(
+                            'test post',
+                          ),
+                        ),
                         Text(
-                            '$uc',
-                            style: TextStyle(color: Colors.red),
-                          ), 
+                          '$uc',
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ],
                     ),
                   ),

@@ -37,6 +37,7 @@ def usersdetails(request, format=None):
         return JsonResponse(serializer.data, safe=False)
     elif request.method == 'POST':
         rdata = json.loads(request.body)
+        print(rdata)
         serializer = UserSerializer(data=rdata)
         if serializer.is_valid():
             serializer.save()

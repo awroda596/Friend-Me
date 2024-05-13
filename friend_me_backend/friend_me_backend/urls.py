@@ -9,5 +9,7 @@ urlpatterns = [
     path('api/profiles/', include('profiles.urls')),
     path('api/users/', include('users.urls')),
     path('', include('events.urls')),
+    path('', include('users.urls')),
+    path('', include('profiles.urls'))
 ]
 

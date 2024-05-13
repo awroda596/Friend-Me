@@ -11,7 +11,7 @@ import json
 def eventsdetails(request, format=None):
     if request.method == 'GET':
         userid = request.headers.get('Authorization')
-        events = Event.objects.filter(uid=userid)
+        events = Event.objects
         serializer = EventSerializer(events, many=True)
         return JsonResponse(serializer.data, safe=False)
     elif request.method == 'POST':
